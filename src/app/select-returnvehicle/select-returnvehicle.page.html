@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="vehicle-title">
+      <b> {{locationend}} </b>
+      <b> <small>to</small> {{locationstart}}</b>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-toolbar class="home-page">
+  <div class="calculator-card">
+    <ion-item lines="none" class="date-time-row" style="border-bottom: none !important;">
+      <ion-col size="6" class="padding-0">
+        <ion-item lines="none" class="no__padding">
+          <ion-label position="stacked" class="label label--pick-date"> RETURN DATE </ion-label>
+          <div>
+            <span class="date">{{selectDate}}</span>
+            <span class="month">{{selectMonthYear}}</span>
+            <span class="month-year">{{selectDay}}</span>
+          </div>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" class="padding-0">
+        <ion-item class="no__padding" lines="none">
+          <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'A'"> FLIGHT ARRIVAL
+            TIME </ion-label>
+          <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'B'">RETURN PICKUP TIME
+          </ion-label>
+          <div>
+            <span class="date"> {{fulltime}}</span>
+            <span class="month-year"> {{halftime}}</span>
+          </div>
+        </ion-item>
+      </ion-col>
+    </ion-item>
+  </div>
+</ion-toolbar>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header style="padding:0;border-bottom: 1px solid #ddd;">
+      <ion-item lines="none">
+        <ion-thumbnail class="vehicle-thumbnail" slot="start">
+          <img src={{carImage}}>
+        </ion-thumbnail>
+        <ion-row class="icon-section" slot="end">
+          <ion-col class="icons-row">
+            <ion-img src={{carInside}}></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label><b>{{carName}}</b></ion-label>
+        <div class="vehicle-amount" slot="end">
+          $ {{carPrice}}
+        </div>
+      </ion-item>
+    </ion-card-header>
+    <p class="discount-rate" *ngIf ="discount_description != null">*{{discount_description}}</p>
+    <ion-card-content style="padding:0">
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>AMENITIES</ion-label>
+        </ion-list-header>
+        <ion-item class="amenities--select-section" lines="none" *ngFor="let items of amenitiesDetails2">
+          <ion-col size="5" *ngIf=" items.AmenityName!='Free WiFi '">
+            <ion-label>
+              {{items.AmenityName}}
+            </ion-label>
+          </ion-col>
+          <ion-col size="3" *ngIf=" items.AmenityName!='Free WiFi '">
+            <ion-label class="text-center"><b>$ {{items.AmenityPrice}}</b></ion-label>
+          </ion-col>
+          <ion-col size="4" *ngIf=" items.AmenityName!='Free WiFi '">
+            <ion-select placeholder="Select One" (ionChange)="getAmenityCalculations($event,items.FK_AmenityID,items.AmenityPrice)">
+              <ion-select-option *ngFor="let q of items.Qtylist" [value]="q">{{q.Text}}</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col size="5" *ngIf=" items.AmenityName=='Free WiFi '">
+            <ion-label>
+              {{items.AmenityName}}
+            </ion-label>
+          </ion-col>
+          <ion-col size="3" *ngIf=" items.AmenityName=='Free WiFi '">
+            <ion-label class="text-center"><b>$ {{items.AmenityPrice}}</b></ion-label>
+          </ion-col>
+          <ion-col size="4" text-right *ngIf=" items.AmenityName=='Free WiFi '">
+            <ion-toggle color="primary" [ngModel]="theSate" (ionChange)="stateChange($event)"></ion-toggle>
+          </ion-col>
+        </ion-item>
+       </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-item lines="none">
+    <ion-label>$ {{finalAmount2}} <ion-icon name="information-circle-outline" (click)="presentModal()"></ion-icon>
+    </ion-label>
+    <ion-button class="main-button main-button--next-page" slot="end" routerDirection="forward" (click)="goToPayment()">Select Vehicle
+    </ion-button>
+  </ion-item>
+</ion-footer>

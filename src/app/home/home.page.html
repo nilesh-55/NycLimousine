@@ -1,0 +1,296 @@
+<ion-header>
+  <ion-toolbar class="transparent-toolbar" style="background: #ffffff;">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-img src="assets/nyclogo.png" class="app-logo"></ion-img>
+    <a href="tel:+12123666600" ion-button slot="end" style="font-size: 1.8rem;padding: 12px 10px 0;color: #000;">
+      <ion-icon name="call"></ion-icon>
+    </a>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="home-page">
+  <ion-slides [options]="slideOptsOne">
+    <ion-slide>
+      <ion-img src="assets/slider/slider-1.png"></ion-img>
+    </ion-slide>
+    <ion-slide>
+      <ion-img src="assets/slider/slider-2.png"></ion-img>
+    </ion-slide>
+    <ion-slide>
+      <ion-img src="assets/slider/slider-3.png"></ion-img>
+    </ion-slide>
+    <ion-slide>
+      <ion-img src="assets/slider/slider-4.png"></ion-img>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-row class="calculator-card">
+    <form [formGroup]="form1" (ngSubmit)="onSubmit(form1.value)">
+      <ion-card-header>
+        <ion-segment>
+          <ion-radio-group name="screens" formControlName="TypeOfService" [(ngModel)]="segment">
+            <div>
+              <ion-radio slot="start" value="0" (ionSelect)="radioChecked(0)" checked></ion-radio>
+              <ion-label>ONE WAY</ion-label>
+            </div>
+            <div>
+              <ion-radio slot="start" (ionSelect)="radioChecked(1)" value="2"></ion-radio>
+              <ion-label>ROUNDTRIP</ion-label>
+            </div>
+            <div>
+              <ion-radio slot="start" (ionSelect)="radioChecked(2)" value="1"></ion-radio>
+              <ion-label>HOURLY</ion-label>
+            </div>
+            <div>
+              <ion-radio slot="start" (ionSelect)="radioChecked(3)" value="3"></ion-radio>
+              <ion-label>WAIT & RETURN</ion-label>
+            </div>
+          </ion-radio-group>
+        </ion-segment>
+      </ion-card-header>
+
+      <div class="full-width" style="padding-top: 2rem">
+        <ion-label> FROM </ion-label>
+        <ion-searchbar  (click)="presentmodal1()" placeholder="Address or Airport" type="text" debounce="500" formControlName="FromLocationName"
+      (ionChange)="getItems($event)"></ion-searchbar>
+      </div>
+
+      <div style="padding: 3px 0px 0 24px;" *ngIf="(form1.get('FromLocationName').hasError('required') ) && form1.get('FromLocationName').touched">
+        <div class="error"
+          *ngIf="form1.get('FromLocationName').hasError('required') && form1.get('FromLocationName').touched">
+          Please enter Location
+        </div>
+      </div>
+
+      <ion-row class="nopadding" formArrayName="objLiclsResStops" [ngSwitch]="segment">
+        <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false" *ngSwitchCase="'0'">
+          <section [formGroupName]="i" *ngFor="let tech of form1.controls.objLiclsResStops.controls; let i = index">
+            <ion-row class="section-border">
+              <ion-item lines="none">
+                <ion-reorder slot="end"></ion-reorder>
+                <ion-col size="6" class="other-location-section">
+                  <ion-item lines="none" class="item item--stop-section">
+                    <ion-label position="stacked"> STOP {{i+1}}</ion-label>
+                    <ion-input placeholder="Address or Airport" (click)="stopModal(i)" type="text" debounce="500"
+                      formControlName="StopLocation" (ionChange)="getItems($event)">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col col-6 class="other-location-section">
+                  <ion-item lines="none" class="item item--stop-section" >
+                    <ion-label position="stacked"> WAITING TIME </ion-label>
+                    <ion-select placeholder="Select Time" formControlName="StopWatingTime">
+                      <ion-select-option value="1">Will Decide later</ion-select-option>
+                      <ion-select-option value="10">10 mins free</ion-select-option>
+                      <ion-select-option value="15">15 minutes</ion-select-option>
+                      <ion-select-option value="30">30 minutes</ion-select-option>
+                      <ion-select-option value="45">45 minutes</ion-select-option>
+                      <ion-select-option value="60">60 minutes</ion-select-option>
+                      <ion-select-option value="75">75 minutes</ion-select-option>
+                      <ion-select-option value="90">90 minutes</ion-select-option>
+                      <ion-select-option value="120">2 hours</ion-select-option>
+                      <ion-select-option value="180">3 hours</ion-select-option>
+                      <ion-select-option value="240">4 hours</ion-select-option>
+                      <ion-select-option value="300">5 hours</ion-select-option>
+                      <ion-select-option value="360">6 hours</ion-select-option>
+                      <ion-select-option value="420">7 hours</ion-select-option>
+                      <ion-select-option value="480">8 hours</ion-select-option>
+                      <ion-select-option value="540">9 hours</ion-select-option>
+                      <ion-select-option value="600">10 hours</ion-select-option>
+                      <ion-select-option value="660">11 hours</ion-select-option>
+                      <ion-select-option value="720">12 hours</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-item>
+              <section class="remove-button">
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeInputField(i)">
+                  <ion-icon name="close"></ion-icon>
+                </button>
+              </section>
+            </ion-row>
+          </section>
+        </ion-reorder-group>
+
+        <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false" *ngSwitchCase="'1'">
+          <section [formGroupName]="i" *ngFor="let tech of form1.controls.objLiclsResStops.controls; let i = index">
+            <ion-row class="section-border">
+              <ion-item lines="none">
+                <ion-reorder slot="end"></ion-reorder>
+                <ion-col size="6" class="other-location-section">
+                  <ion-item lines="none" class="item item--stop-section">
+                    <ion-label position="stacked"> STOP {{i+1}}</ion-label>
+                    <ion-input placeholder="Address or Airport" (click)="stopModal(i)" type="text" debounce="500"
+                      formControlName="StopLocation" (ionChange)="getItems($event)">
+                    </ion-input>
+                  </ion-item>
+                </ion-col>
+
+              </ion-item>
+              <section class="remove-button">
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeInputField(i)">
+                  <ion-icon name="close"></ion-icon>
+                </button>
+              </section>
+            </ion-row>
+          </section>
+        </ion-reorder-group>
+      </ion-row>
+
+      <div class="full-width">
+        <ion-label> TO </ion-label>
+        <ion-searchbar (click)="presentModal()" placeholder="Address or Airport" type="text" debounce="500" formControlName="ToLocationName"
+          (ionChange)="getItem($event)">
+        </ion-searchbar>
+      </div>
+
+      <div style="padding: 3px 0px 0 24px;" *ngIf="(form1.get('ToLocationName').hasError('required') ) && form1.get('ToLocationName').touched">
+        <div class="error"
+          *ngIf="form1.get('ToLocationName').hasError('required') && form1.get('ToLocationName').touched">
+          Please enter Location
+        </div>
+      </div>
+
+      <ion-row class="add-stop" [ngSwitch]="segment">
+        <ion-label (click)="addNewInputField()" *ngSwitchCase="'0'">
+          <ion-icon name="add" type="button"></ion-icon> ADD STOP
+        </ion-label>
+      
+        <ion-label (click)="addNewInputField()" *ngSwitchCase="'1'">
+          <ion-icon name="add" type="button"></ion-icon> ADD STOP
+        </ion-label>
+      </ion-row>
+
+      <ion-item lines="none" class="date-time-row">
+        <ion-col size="6">
+          <ion-item lines="none" class="no__padding" *ngIf="dateShow">
+            <ion-label position="stacked"> DATE </ion-label>
+            <ion-datetime display-format="DD-MMM-YYYY" [min]="minDate" [max]="maxData" required
+              placeholder="Select Date" formControlName="PickUpDate" (ionChange)="changeDate()"></ion-datetime>
+          </ion-item>
+
+          <ion-item lines="none" class="no__padding" *ngIf="!dateShow">
+            <ion-label position="stacked"> DATE </ion-label>
+            <div>
+              <span class="date">{{selectDay}}</span>
+              <span class="month">{{selectMonthYear}}</span>
+              <span class="month-year">{{selectDate}}</span>
+            </div>
+            <ion-icon name="close" (click)="dateicon()"></ion-icon>
+          </ion-item>
+        </ion-col>
+        
+        <ion-col size="6">
+          <ion-item lines="none" class="no__padding" *ngIf="timeShow">
+            <ion-label position="stacked"> TIME </ion-label>
+            <ion-datetime display-format="hh:mm A" placeholder="Select Time" formControlName="PickupTime24H"
+              (ionChange)="changeTime()"></ion-datetime>
+          </ion-item>
+
+          <ion-item lines="none" class="no__padding" *ngIf="!timeShow">
+            <ion-label position="stacked"> TIME </ion-label>
+            <div>
+              <span class="date">{{fulltime}}</span>
+              <span class="month-year">{{halftime}}</span>
+            </div>
+            <ion-icon name="close" (click)="timeicon()"></ion-icon>
+          </ion-item>
+        
+        </ion-col>
+      </ion-item>
+      <ion-col size="6">
+        <div style="padding: 5px 0px 0 20px;" *ngIf="(form1.get('PickUpDate').hasError('required') ) && form1.get('PickUpDate').touched">
+          <div class="error" *ngIf="form1.get('PickUpDate').hasError('required') && form1.get('PickUpDate').touched">
+            Please Enter Date
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div style="padding: 5px 0px 0 10px;" *ngIf="(form1.get('PickupTime24H').hasError('required') ) && form1.get('PickupTime24H').touched">
+          <div class="error" *ngIf="form1.get('PickupTime24H').hasError('required') && form1.get('PickupTime24H').touched">
+            Please Enter Time
+          </div>
+        </div>
+      </ion-col>
+     
+      <div [ngSwitch]="segment" style="width: 100%;">
+        <ion-row *ngSwitchCase="'0'">
+        </ion-row>
+
+        <ion-item lines="none" class="return-date-time-row" *ngSwitchCase="'2'">
+          <ion-col size="6">
+            <ion-item lines="none" class="no__padding" *ngIf="dateShow1">
+              <ion-label position="stacked"> RETURN DATE </ion-label>
+              <ion-datetime display-format="DD-MMM-YYYY" [min]="minDate" [max]="maxData" placeholder="Select Date"
+                formControlName="ReturnDate" (ionChange)="changeRoundtripDate()"></ion-datetime>
+            </ion-item>
+
+            <ion-item lines="none" class="no__padding" *ngIf="!dateShow1">
+              <ion-label position="stacked"> RETURN DATE </ion-label>
+              <div>
+                <span class="date">{{selectReturnDay}}</span>
+                <span class="month">{{selectReturnMonthYear}}</span>
+                <span class="month-year">{{selectReturnDate}}</span>
+              </div>
+              <ion-icon name="close" (click)="dateRoundtripicon()"></ion-icon>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-item lines="none" class="no__padding" *ngIf="timeShow1">
+              <ion-label class="pickup-time-label" position="stacked"> RETURN PICKUP TIME </ion-label>
+              <ion-datetime display-format="hh:mm A" placeholder="Select Time" (ionChange)="changetRoundtripTime()"
+                formControlName="ReturnTime24H"></ion-datetime>
+            </ion-item>
+            <ion-item lines="none" class="no__padding" *ngIf="!timeShow1">
+              <ion-label class="pickup-time-label" position="stacked"> RETURN PICKUP TIME </ion-label>
+              <div>
+                <span class="date">{{fullRoundtriptime}}</span>
+                <span class="month-year">{{halfRoundtriptime}}</span>
+              </div>
+              <ion-icon name="close" (click)="timeRoundtripicon()"></ion-icon>
+            </ion-item>
+          </ion-col>
+        </ion-item>
+
+        <ion-item *ngSwitchCase="'1'" class="type-of-service-row" lines="none">
+          <ion-col size="6">
+            <ion-item lines="none" class="no__padding">
+              <ion-label class="pickup-time-label" position="stacked"> TYPE OF SERVICE </ion-label>
+              <ion-select placeholder="Select Service" formControlName="Event">
+                <ion-select-option *ngFor="let item of noOfService" [value]="item.EventId">{{item.EventName}}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none"
+              *ngIf="(form1.get('TypeOfService').hasError('required') ) && form1.get('TypeOfService').touched">
+              <div class="error"
+                *ngIf="form1.get('TypeOfService').hasError('required') && form1.get('TypeOfService').touched">
+                Please enter Service type
+              </div>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item lines="none" class="no__padding">
+              <ion-label class="pickup-time-label" position="stacked"> NUMBER OF HOURS </ion-label>
+              <ion-select placeholder="Select Time" formControlName="HourlyTime" (ionChange)="getHours($event)">
+                <ion-select-option *ngFor="let item of noOfHours" [value]="item.Value">{{item.Text}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-item>
+
+        <ion-item lines="none" *ngSwitchCase="'3'" class="type-of-service-row" style="padding-left: 0.5rem;">
+          <ion-label position="stacked"> Estimated Waiting Time </ion-label>
+          <ion-select placeholder="Select Time" formControlName="WaitingTime">
+            <ion-select-option *ngFor="let item of waitingTime" [value]="item.Value">{{item.Text}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+      <ion-button (click)="onSubmit()" [disabled]="!form1.valid" class="main-button"> CALCULATE MY RIDE </ion-button>
+    </form>
+  </ion-row>
+</ion-content>

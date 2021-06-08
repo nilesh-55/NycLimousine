@@ -1,0 +1,82 @@
+ion-buttons {
+    ion-back-button {
+        color: #fff;
+        opacity: .7;
+    }
+}
+ion-card {
+    ion-card-header {
+        margin: 0;
+        padding: 0 !important;
+    }
+}
+ion-card-content {
+    ion-item {
+        ion-label {
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding-bottom: 5px;
+        }
+    }
+}
+
+ion-content.b1 {
+    position: absolute;
+    --background: linear-gradient(to bottom, #00000080, #04040424, #000000a6, #000), 
+    url('../../assets/login-background.png') no-repeat center center / cover;
+}
+     .img-nyclogo{
+        width: 100px;
+        margin: auto;
+        margin-top: 10px;
+     }
+     .card-css {
+        margin-top: 5.5rem !important;
+        border-radius: 0px;
+        box-shadow: 0 0px 1px rgba(0,0,0,.12);
+        ion-card-content {
+            padding-bottom: 5px;
+            .input-border {
+                border-bottom: 1px solid #ddd;
+                padding-top: 1.5rem;
+                display: block;
+                margin: 0 auto;
+                text-align: center;
+                ion-input {
+                    font-size: 13px;
+                    color: #000;
+                    letter-spacing: 0.5px;
+                    --padding-bottom: 4px;
+                    --padding-top: 10px;
+                    --padding-start: 0;
+                    font-family: "Nunito", sans-serif;
+                    font-weight: 900;
+                    text-align: initial;
+                    margin-top: 1rem;
+                }
+                ion-label {
+                    color: #000;
+                    font-family: "Nunito", sans-serif;
+                    letter-spacing: 0.5px;
+                    font-weight: 800;
+                }
+            }
+            .login-button  {
+                --background: var(--ion-color-primary);
+                --background: #fdc600;
+                color: black;
+                text-transform: capitalize;
+                width: 100%;
+                margin-top: 13px;
+                --border-radius: 0px;
+                font-size: 20px;
+                height: 40px;
+            }
+             .error {
+                font-size: 12px;
+                color: red;
+                padding: 5px 0px;
+            }
+        }
+     }

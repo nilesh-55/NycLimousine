@@ -1,0 +1,61 @@
+.vehicle-thumbnail {
+	width: 40%;
+	height: auto;
+	margin: 5px 0 0 0;
+}
+
+.icons-row {
+	display: flex;
+	font-size: 20px;
+	padding: 5px 0px;
+}
+
+ion-list-header {
+	ion-label {
+		font-weight: 700;
+		font-size: 14px;
+		color: #6b6868;
+	}
+}
+
+b,
+small {
+	color: #000;
+}
+
+.text-center {
+	padding-top: 5px;
+	b {
+		font-size: 13px;
+		margin: 6px auto;
+		margin-left: 1.5rem;
+		display: block;
+		text-align: center;
+	}
+}
+
+.amenities--select-section {
+	ion-label {
+		font-size: 11px;
+		display: -webkit-inline-box;
+	}
+	ion-select {
+		min-width: 80px;
+		color: #000;
+		font-size: 12px;
+		position: absolute;
+		bottom: -15px;
+		right: -5px;
+		font-weight: 700;
+    }
+    p {
+        padding: 0.7rem 0 0 1rem;
+        font-size: 12px;
+    }
+}
+.discount-rate{
+	text-align: center;
+    color: #000;
+    font-weight: 600;
+    padding: 5px 15px;
+}

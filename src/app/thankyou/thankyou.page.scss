@@ -1,0 +1,127 @@
+ion-header {
+	ion-toolbar {
+		padding-bottom: 0;
+		--background: #fdc600 !important;
+		border: 0;
+		ion-label {
+			margin: 0 auto;
+			display: block;
+			margin-left: -30px;
+			font-weight: bold;
+			color: #000;
+			font-size: 18px;
+		}
+		ion-grid {
+			ion-row {
+				ion-text {
+					color: #000;
+					font-size: 15px;
+					text-align: center;
+					font-weight: 500;
+					display: block;
+					margin: 0 15px 0 15px;
+				}
+				.button {
+					margin: 0 auto;
+					display: block;
+					ion-col {
+						display: inline-grid;
+						ion-button {
+							span {
+								font-weight: 900;
+								font-size: 15px;
+							}
+						}
+						.round {
+							--background: white;
+							width: 125px;
+							--box-shadow: none;
+							color: #000;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.new-background-color {
+	--background: #fdc600;
+}
+
+.confirmation-section {
+	border-bottom: 1px solid #ddd;
+	margin-top: 3px;
+	margin-bottom: 5px;
+	ion-col {
+		span {
+			font-weight: 800;
+			font-size: 13px;
+			color: #000;
+			&--number {
+				color: red;
+				float: right;
+			}
+			&--total {
+				color: #fdc600;
+				float: right;
+				margin-right: 10px;
+			}
+		}
+	}
+	.payment {
+	    border-bottom: 1px solid #ddd;
+		line-height: 2;
+		width: 100%;
+	}
+	p {
+	    text-align: justify;
+		margin: 2px 10px 10px 10px;
+		color: #000;
+		font-size: 12px;
+	}
+	h5 {
+		width: 100%;
+		margin-left: 0.5rem;
+		color: #000;
+		font-weight: 700;
+		font-family: 'Nunito',sans-serif;
+	}
+}
+ion-row {
+	ion-col {
+		div {
+			ion-text {
+				font-size: 14px;
+				color: #000;
+				font-weight: bold;
+				margin-left: 0.4rem;
+			}
+			h6 {
+				font-family: 'Nunito', sans-serif;
+				font-weight: 800;
+				color: #9b9b9b;
+				margin-left: 0.4rem;
+			}
+			ion-row {
+				ion-label {
+					font-weight: 600;
+				}
+				div {
+					line-height: 1;
+				}
+			}
+		}
+	}
+}
+
+.image {
+	display: block;
+	ion-img {
+		width: 150px;
+		margin-left: 0.4rem;
+	}
+	ion-text {
+		font-family: 'Nunito',sans-serif;
+		padding: 5px 0px 0px 10px;
+	}
+}

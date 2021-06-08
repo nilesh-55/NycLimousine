@@ -1,0 +1,54 @@
+<ion-header style="--background: transparent;">
+  <ion-toolbar class="transparent-toolbar" style="--border-width: 0; border-bottom: none;--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="b1">
+  <div style="display: table;position: absolute;left: 0;top: 0;height: 100%;width: 100%;">
+    <div style="display: table-cell;vertical-align: middle;">
+      <form [formGroup]="form" class="login-form" (ngSubmit)="onLogin(form.value)">
+        <ion-card class="card-css">
+          <ion-card-header>
+            <ion-img src="assets/nyclogo.png" class="img-nyclogo"></ion-img>
+          </ion-card-header>
+          <ion-card-content>
+    
+            <div class="input-border">
+              <ion-label position="stacked">Username</ion-label>
+              <ion-input type="email" formControlName="username"></ion-input>
+            </div>
+            <div *ngIf="(form.get('username').hasError('required') ) && form.get('username').touched">
+              <div class="error" *ngIf="form.get('username').hasError('required') && form.get('username').touched">
+                Please Enter Username
+              </div>
+            </div>
+            <div class="input-border">
+              <ion-label position="stacked">Password</ion-label>
+              <ion-input formControlName="password" [type]="passwordType" clearOnEdit="false"></ion-input>
+              <ion-icon slot="end" item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
+            </div>
+            <div *ngIf="(form.get('password').hasError('required') ) && form.get('password').touched">
+              <div class="error" *ngIf="form.get('password').hasError('required') && form.get('password').touched">
+                Please Enter Password
+              </div>
+            </div>
+    
+            <ion-label class="forget-password" (click)="presentAlertPrompt()">Forgot Password?</ion-label>
+            <ion-button type="submit" class="login-button" [disabled]="!form.valid"> Login</ion-button>
+            <div class="or-border"><span>OR</span></div>
+    
+            <ion-button class="google-button">
+              <ion-img src="assets/google-image.png" (click)="googleLogin()"></ion-img> Signin With Google
+            </ion-button>
+    
+          </ion-card-content>
+        </ion-card>
+      </form>
+      <h5>DON'T HAVE AN ACCOUNT</h5>
+      <h4 routerLink="/register">REGISTER</h4>  
+    </div>
+  </div>
+ 
+</ion-content>

@@ -1,0 +1,74 @@
+// ion-header {
+//     ion-toolbar {
+//         ion-buttons {
+//             ion-icon {
+//                 font-size: 25px;
+//                 padding-left: 0.5rem;
+//                 padding-top: 0.5rem;
+//                 font-weight: bolder;
+//             }
+//         }
+//         ion-label {
+//             font-weight: 600;
+//             padding-top: 0.5rem;
+//             font-size: 17px;
+//             padding-left: 1rem;
+//         }
+//     }
+// }
+// ion-content {
+//     ion-label {
+//         font-weight: 600;
+//         color: #000;
+//         font-size: 12px;
+//     }
+
+//     ion-item {
+//         ion-text {
+//             font-weight: 300 !important;
+//             font-size: 15px;
+//         }
+//     }
+//     ion-footer {
+//         background: #fff;
+//         position: fixed;
+//         bottom: 0;
+//         ion-label {
+//             font-weight: 700;
+//             color: #000 !important;
+//             font-size: 17px !important;
+//         }
+//         ion-text {
+//             font-weight: 800 !important;
+//             color: #000 !important;
+//         }
+//     }
+// }
+// .discount-note{
+//     text-align: center;
+//     color: #000;
+//     font-weight: 600;
+//     padding: 8px 16px;
+// }
+
+ion-content {
+    ion-item {
+        border-bottom: 1px solid #ddd;
+        ion-label , ion-text {
+            color: #000;
+            font-weight: 800;
+            font-size: 14.5px;
+        }
+    }
+}
+ion-footer {
+    ion-text {
+      color: #fff;
+    }
+}
+.discount-rate{
+    text-align: center;
+    color: #000;
+    font-weight: 600;
+    padding: 8px 16px;
+}

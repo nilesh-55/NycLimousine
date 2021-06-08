@@ -1,0 +1,75 @@
+<ion-header style="--background: transparent;">
+  <ion-toolbar class="transparent-toolbar" style="--border-width: 0; border-bottom: none;--background: transparent;">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="b1">
+  <div style="display: table;position: absolute;left: 0;top: 0;height: 100%;width: 100%;">
+    <div style="display: table-cell;vertical-align: middle;">
+      <form [formGroup]="form1" class="login-form" (ngSubmit)="registration(form1.value)">
+        <ion-card class="card-css">
+          <ion-card-header>
+            <ion-img src="assets/nyclogo.png" class="img-nyclogo"></ion-img>
+          </ion-card-header>
+          <ion-card-content>
+    
+            <div class="input-border">
+              <ion-label position="stacked">Firstname</ion-label>
+              <ion-input type="text" formControlName="firstName"></ion-input>
+            </div>
+    
+            <div lines="none" *ngIf="(form1.get('firstName').hasError('required') ) && form1.get('firstName').touched">
+              <div class="error" *ngIf="form1.get('firstName').hasError('required') && form1.get('firstName').touched">
+                Please Enter FirstName
+              </div>
+            </div>
+    
+            <div class="input-border">
+              <ion-label position="stacked">Lastname</ion-label>
+              <ion-input type="text" formControlName="lastName"></ion-input>
+            </div>
+    
+            <div lines="none" *ngIf="(form1.get('lastName').hasError('required') ) && form1.get('lastName').touched">
+              <div class="error" *ngIf="form1.get('lastName').hasError('required') && form1.get('lastName').touched">
+                Please Enter LastName
+              </div>
+            </div>
+    
+            <div class="input-border">
+              <ion-label position="stacked">Email</ion-label>
+              <ion-input type="text" class="input-css" formControlName="email"></ion-input>
+            </div>
+            <div lines="none" *ngIf="(form1.get('email').hasError('required') ) && form1.get('email').touched">
+              <div class="error" *ngIf="form1.get('email').hasError('required') && form1.get('email').touched">
+                Please Enter valid Email
+              </div>
+            </div>
+    
+            <div class="input-border">
+              <ion-label position="stacked">Password</ion-label>
+              <ion-input type="password" class="input-css" formControlName="password"></ion-input>
+            </div>
+            <div lines="none" *ngIf="(form1.get('password').hasError('required') ) && form1.get('password').touched">
+              <div class="error" *ngIf="form1.get('password').hasError('required') && form1.get('password').touched">
+                Please Enter Password
+              </div>
+            </div>
+    
+            <div class="input-border">
+              <ion-label position="stacked">Repeat Password</ion-label>
+              <ion-input type="password" class="input-css" formControlName="rePassword"></ion-input>
+            </div>
+            <div lines="none" *ngIf="(form1.get('rePassword').hasError('required') ) && form1.get('rePassword').touched">
+              <div class="error" *ngIf="form1.get('rePassword').hasError('required') && form1.get('rePassword').touched">
+                Please Enter Repeat Password
+              </div>
+            </div>
+            <ion-button type="submit" class="login-button" [disabled]="!form1.valid"> Register</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </div>
+  </div>
+</ion-content>

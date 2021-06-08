@@ -1,0 +1,1723 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="page-title" *ngIf="serviceName == 'Round Trip'"><small>Enter Details</small></ion-title>
+        <ion-title class="vehicle-title" *ngIf="serviceName != 'Round Trip'">
+            <b>{{locationstart}}</b>
+            <b><small>to</small>{{locationend}}</b>
+        </ion-title>
+        <div class="tab-button" slot="end">
+            <ion-button *ngIf="serviceName == 'Round Trip'" class="nyc-button-inside" size="small"
+                (click)="ScrollToOrigin()">Origin Trip</ion-button>
+            <ion-button *ngIf="serviceName == 'Round Trip'" class="nyc-button-inside" size="small"
+                (click)="ScrollToReturn()">Return Trip</ion-button>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-toolbar class="home-page" *ngIf="serviceName != 'Round Trip'">
+    <div class="calculator-card">
+        <ion-item lines="none" class="date-time-row">
+            <ion-col size="6" class="padding-0">
+                <ion-item lines="none" class="no__padding">
+                    <ion-label position="stacked"> DATE </ion-label>
+                    <div>
+                        <span class="date">{{selectDate}}</span>
+                        <span class="month">{{selectMonthYear}}</span>
+                        <span class="month-year">{{selectDay}}</span>
+                    </div>
+                </ion-item>
+            </ion-col>
+
+
+            <ion-col size="6" class="padding-0">
+                <ion-item class="no__padding" lines="none">
+                    <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'A'"> FLIGHT
+                        ARRIVAL TIME </ion-label>
+                    <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'B'"> PICKUP
+                        TIME </ion-label>
+                    <div>
+                        <span class="date"> {{fulltime}}</span>
+                        <span class="month-year"> {{halftime}}</span>
+                    </div>
+                </ion-item>
+
+            </ion-col>
+        </ion-item>
+    </div>
+</ion-toolbar>
+<ion-toolbar *ngIf="serviceName != 'Round Trip'">
+    <ion-item lines="none">
+        <ion-text class="car_name">{{carName}}</ion-text>
+        <div class="capacity" slot="end" style="margin-top:5px">
+            <ion-col class="icons-row">
+                <ion-img src={{carInside}} class=""></ion-img>
+            </ion-col>
+        </div>
+    </ion-item>
+</ion-toolbar>
+
+<ion-content [scrollEvents]="true">
+    <div id="origintrip" bg *ngIf="serviceName == 'Round Trip'">
+        <ion-label>Step 1 of 2 - Origin Trip</ion-label>
+    </div>
+    <ion-toolbar class="date-time-row" *ngIf="serviceName == 'Round Trip'">
+        <ion-item lines="none">
+            <div class="roundtrip--from-to-location">
+                <b> {{locationstart}} </b>
+                <b> <small>to</small> {{locationend}}</b>
+            </div>
+        </ion-item>
+    </ion-toolbar>
+    <ion-toolbar class="home-page" *ngIf="serviceName == 'Round Trip'">
+        <div class="calculator-card">
+            <ion-item lines="none" class="date-time-row">
+                <ion-col size="6" class="padding-0">
+                    <ion-item class="no__padding" lines="none">
+                        <ion-label position="stacked"> DATE </ion-label>
+                        <div>
+                            <span class="date">{{selectDate}}</span>
+                            <span class="month">{{selectMonthYear}}</span>
+                            <span class="month-year">{{selectDay}}</span>
+                        </div>
+                    </ion-item>
+                </ion-col>
+
+                <ion-col size="6" class="padding-0">
+                    <ion-item class="no__padding" lines="none">
+                        <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'A'">
+                            FLIGHT ARRIVAL TIME </ion-label>
+                        <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'B'">
+                            PICKUP TIME </ion-label>
+                        <div>
+                            <span class="date"> {{fulltime}}</span>
+                            <span class="month-year"> {{halftime}}</span>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-item>
+        </div>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="serviceName == 'Round Trip'">
+        <ion-item lines="none">
+            <ion-text class="car_name">{{carName}}</ion-text>
+            <div class="capacity" slot="end" style="margin-top:5px">
+                <ion-col class="icons-row">
+                    <ion-img src={{carInside}} class=""></ion-img>
+                </ion-col>
+            </div>
+        </ion-item>
+    </ion-toolbar>
+
+    <form [formGroup]="form1" (ngSubmit)="onSubmit(form1.value)">
+        <ion-card>
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Pick-up details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+                <div FROM-AIRPORT *ngIf="locationType == 'A'">
+                    <div class="form-section">
+                        <ion-label class="to-location" position="stacked">From</ion-label>
+                        <ion-text>{{locationstart}}</ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked"> <span class="mendatary"> * </span> Airline Name </ion-label>
+                        <ion-input type="text" debounce="500" formControlName="AirlineName"
+                            (ionInput)="getItems($event)">
+                        </ion-input>
+                    </div>
+                    <ion-list *ngIf="isItemAvailable">
+                        <ng-container *ngFor="let item of items">
+                            <div class="list" *ngIf="item.AirCode" (click)="putvalue(item)">
+                                {{ item.AirCode }}
+                            </div>
+                        </ng-container>
+                    </ion-list>
+                    <div *ngIf="(form1.get('AirlineName').hasError('required') ) && form1.get('AirlineName').touched">
+                        <div class="error"
+                            *ngIf="form1.get('AirlineName').hasError('required') && form1.get('AirlineName').touched">
+                            Please select Airline Name
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked"> <span class="mendatary"> * </span>Flight Number</ion-label>
+                        <ion-input type="text" formControlName="FlightNumber"></ion-input>
+                    </div>
+                    <div *ngIf="(form1.get('FlightNumber').hasError('required') ) && form1.get('FlightNumber').touched">
+                        <div class="error"
+                            *ngIf="form1.get('FlightNumber').hasError('required') && form1.get('FlightNumber').touched">
+                            Please select Flight Number
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Terminal</ion-label>
+                        <ion-select placeholder="--" formControlName="Terminal" *ngIf="terminalNumber != 0">
+                            <ion-select-option *ngFor="let item of terminalNumber" [value]="item.Value">{{item.Text}}
+                            </ion-select-option>
+                        </ion-select>
+                        <ion-input type="text" formControlName="Terminal" *ngIf="terminalNumber == 0"></ion-input>
+                    </div>
+
+                    <div class="form-section">
+                        <ion-label position="stacked"> <span class="mendatary"> * </span>Origin Airport</ion-label>
+                        <ion-input type="text" debounce="500" formControlName="OriginAirport"
+                            (ionInput)="getorigin($event)"></ion-input>
+                    </div>
+                    <ion-list *ngIf="isItemAvailable2">
+                        <ng-container *ngFor="let item of list">
+                            <div class="list" *ngIf="item.AirportName" (click)="putvalue2(item)">
+                                {{ item.AirportName }}
+                            </div>
+                        </ng-container>
+                    </ion-list>
+                    <div
+                        *ngIf="(form1.get('OriginAirport').hasError('required') ) && form1.get('OriginAirport').touched">
+                        <div class="error"
+                            *ngIf="form1.get('OriginAirport').hasError('required') && form1.get('OriginAirport').touched">
+                            Please select Origin Airport
+                        </div>
+                    </div>
+
+                    <div class="form-section form-section--type_of_flight">
+                        <ion-label class="type_of_flight" position="stacked"> <span class="mendatary"> * </span> Type Of
+                            Flight</ion-label>
+                    </div>
+                    <ion-row class="radio-section">
+                        <ion-col size="12">
+                            <ion-radio-group formControlName="FlightType">
+                                <ion-col size="6">
+                                    <ion-list>
+                                        <ion-radio class="second-radio" slot="start" (click)="onButtonClick()"
+                                            value="INTERNATIONAL FLIGHT">
+                                        </ion-radio>
+                                        <ion-label>International Flight</ion-label>
+                                    </ion-list>
+                                </ion-col>
+
+                                <ion-col size="6">
+                                    <ion-list>
+                                        <ion-radio slot="start" (click)="onButtonClick1()" value="DOMESTIC FLIGHT">
+                                        </ion-radio>
+                                        <ion-label>Domestic Flight</ion-label>
+                                    </ion-list>
+                                </ion-col>
+                            </ion-radio-group>
+                        </ion-col>
+                    </ion-row>
+                    <ion-card INTERNATIONAL-FLIGHT *ngIf="buttonClickedFirst">
+                        <ion-row>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Flight Arrival
+                                    Time</ion-label>
+
+                                <ion-datetime #picker displayFormat='hh:mm A'
+                                    (ionChange)='onChangeTime($event.target.value)' pickerFormat='hh:mm A'
+                                    formControlName="flight_arrival_time"></ion-datetime>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> Delayed PickUp
+                                </ion-label>
+                                <ion-select (ionChange)="optionsFn($event.target.value)" placeholder="No"
+                                    formControlName="DelayedPickup">
+                                    <ion-select-option value="0"> No </ion-select-option>
+                                    <ion-select-option value="15"> 15 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="30"> 30 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="45"> 45 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="60"> 60 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="75"> 75 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="90"> 90 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="105"> 105 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="120"> 120 Minutes
+                                    </ion-select-option>
+                                </ion-select>
+                            </div>
+
+                            <div class="form-section">
+                                <ion-label position="stacked"> Driver On Location Time
+                                </ion-label>
+                                <ion-text> {{DriverLocation}} </ion-text>
+                            </div>
+
+                            <div class="form-section">
+                                <ion-label position="stacked"> Free Waiting Time
+                                </ion-label>
+                                <ion-text> 45 Minutes </ion-text>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> PickUp Time
+                                </ion-label>
+                                <ion-text> {{addminute}} </ion-text>
+                            </div>
+                        </ion-row>
+                        <div class="form-section">
+                            <ion-label style="color: #000;font-weight: bolder;" position="stacked">
+                                Airport Waiting Time
+                            </ion-label>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange == 0">
+                                Your rate includes 45 minutes free waiting time at the airport to allow you to pass
+                                immigration, gather your luggage and go through customs. If your flight is delayed your
+                                45 minutes will not start until the flight has landed.
+                            </ion-text>
+
+                            <ion-text *ngIf="TimeChange == 15">
+                                Your transfer will be booked for 15 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 60 minutes in total (from your
+                                flight arrival). If your flight is delayed your 60 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 30">
+                                Your transfer will be booked for 30 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 75 minutes in total (from your
+                                flight arrival). If your flight is delayed your 75 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 45">
+                                Your transfer will be booked for 45 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 90 minutes in total (from your
+                                flight arrival). If your flight is delayed your 90 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 60">
+                                Your transfer will be booked for 60 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 105 minutes in total (from your
+                                flight arrival). If your flight is delayed your 105 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 75">
+                                Your transfer will be booked for 75 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 120 minutes in total (from your
+                                flight arrival). If your flight is delayed your 120 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 90">
+                                Your transfer will be booked for 90 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 135 minutes in total (from your
+                                flight arrival). If your flight is delayed your 135 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 105">
+                                Your transfer will be booked for 105 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 150 minutes in total (from your
+                                flight arrival). If your flight is delayed your 150 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 120">
+                                Your transfer will be booked for 120 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 165 minutes in total (from your
+                                flight arrival). If your flight is delayed your 165 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                        </div>
+                        <div class="form-section" *ngIf="hide">
+                            <ion-label class="type_of_flight" position="stacked"> <span class="mendatary"> * </span>
+                                Meeting Point</ion-label>
+                        </div>
+                        <ion-row *ngIf="hide1" class="radio-section">
+                            <ion-col size="12">
+                                <ion-radio-group style="display: block;" formControlName="MeetingPoint">
+                                    <ion-list>
+                                        <ion-radio (click)="onButtonClick2()" slot="start" checked
+                                            value="Inside the terminal at baggage claim area"></ion-radio>
+                                        <ion-label>Inside the terminal at baggage claim area</ion-label>
+                                    </ion-list>
+                                    <ion-list style="padding: 0; display: flex;">
+                                        <ion-radio (click)="onButtonClick3()" class="second-radio second-radio--second" slot="start"
+                                            value="Outside the terminal at the passenger pick-up area">
+                                        </ion-radio>
+                                        <ion-label>Outside the terminal at the passenger pick-up area</ion-label>
+                                    </ion-list>
+                                </ion-radio-group>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-item inside *ngIf="buttonClickedThird">
+                            <p>
+                                <ion-text position="stacked">Instructions for inside the terminal meet and greet for
+                                    domestic flights
+                                    arrival:</ion-text>
+                                Your chauffeur will wait for you inside the terminal at the baggage claim area or beyond
+                                the security checkpoint with nameboard.
+                            </p>
+                        </ion-item>
+
+                        <ion-item outside *ngIf="buttonClickedFourth">
+                            <p>
+                                <ion-text position="stacked">Instructions for outside the terminal pickup (Curbside
+                                    collection):</ion-text>
+                                Our vehicle will be at the airport, standing by. Once you have gathered your luggage and
+                                are ready to walk outside, please call our office to let us know that you are ready to
+                                go. Our dispatcher will find
+                                out where you are and advise you which vehicle is there for you, and will also ask the
+                                chauffeur to pull up to the terminal to pick you up.
+                            </p>
+                        </ion-item>
+
+                    </ion-card>
+                    <ion-card DOMESTIC-FLIGHT *ngIf="buttonClickedSecond">
+
+                        <ion-row>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Flight Arrival Time
+                                </ion-label>
+
+                                <ion-datetime #picker displayFormat='hh:mm A'
+                                    (ionChange)='onChangeTime1($event.target.value)' pickerFormat='hh:mm A'
+                                    formControlName="flight_arrival_time1"></ion-datetime>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Delayed PickUp
+                                </ion-label>
+                                <ion-select (ionChange)="optionsFn1($event.target.value)" placeholder="30 Minutes">
+                                    <ion-select-option value="0">No</ion-select-option>
+                                    <ion-select-option value="15">15 Minutes</ion-select-option>
+                                    <ion-select-option value="30">30 Minutes</ion-select-option>
+                                    <ion-select-option value="45">45 Minutes</ion-select-option>
+                                    <ion-select-option value="60">60 Minutes</ion-select-option>
+                                    <ion-select-option value="90">90 Minutes</ion-select-option>
+                                    <ion-select-option value="105">105 Minutes</ion-select-option>
+                                    <ion-select-option value="120">120 Minutes</ion-select-option>
+                                </ion-select>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Driver On Location
+                                    Time
+                                </ion-label>
+                                <ion-text> {{DriverLocation1}} </ion-text>
+                            </div>
+
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Free Waiting Time
+                                </ion-label>
+                                <ion-text> 30 Minutes </ion-text>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> PickUp Time
+                                </ion-label>
+                                <ion-text> {{addminute1}} </ion-text>
+                            </div>
+
+                        </ion-row>
+                        <div class="form-section">
+                            <ion-label style="color: #000;font-weight: bolder;" position="stacked">Airport Waiting Time
+                            </ion-label>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 0">
+                                Your rate includes 30 minutes free waiting time at the airport to allow you to gather
+                                your luggage. If your flight is delayed your 30 minutes will not start until the flight
+                                has landed.
+                            </ion-text>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 15">
+                                Your transfer will be booked for 15 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 45 minutes in total (from your flight arrival). If your flight is
+                                delayed your 45 minutes will not start until the flight has landed.
+                            </ion-text>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 30">
+                                Your transfer will be booked for 30 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 60 minutes in total (from your flight arrival). If your flight is
+                                delayed your 60 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 45">
+                                Your transfer will be booked for 45 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 75 minutes in total (from your flight arrival). If your flight is
+                                delayed your 75 minutes will not start until the flight has landed.
+
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 60">
+                                Your transfer will be booked for 60 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 90 minutes in total (from your flight arrival). If your flight is
+                                delayed your 90 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 75">
+                                Your transfer will be booked for 75 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 105 minutes in total (from your flight arrival). If your flight is
+                                delayed your 105 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 90">
+                                Your transfer will be booked for 90 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 120 minutes in total (from your flight arrival). If your flight is
+                                delayed your 120 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 105">
+                                Your transfer will be booked for 105 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 135 minutes in total (from your flight arrival). If your flight is
+                                delayed your 135 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 120">
+
+                                Your transfer will be booked for 120 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 150 minutes in total (from your flight arrival). If your flight is
+                                delayed your 150 minutes will not start until the flight has landed.
+                            </ion-text>
+                        </div>
+                        <div class="form-section">
+                            <ion-label class="type_of_flight" position="stacked">Meeting Point</ion-label>
+                        </div>
+                        <ion-row class="radio-section">
+                            <ion-col size="12">
+                                <ion-radio-group style="display: block;" formControlName="MeetingPoint">
+                                    <ion-list>
+                                        <ion-radio (click)="onButtonClick2()" slot="start" checked
+                                            value="Inside the terminal at baggage claim area"></ion-radio>
+                                        <ion-label>Inside the terminal at baggage claim area</ion-label>
+                                    </ion-list>
+                                    <ion-list style="padding: 0; display: flex;">
+                                        <ion-radio (click)="onButtonClick3()" class="second-radio second-radio--second" slot="start"
+                                            value="Outside the terminal at the passenger pick-up area"></ion-radio>
+                                        <ion-label>Outside the terminal at the passenger pick-up area</ion-label>
+                                    </ion-list>
+                                </ion-radio-group>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-item inside *ngIf="buttonClickedThird">
+                            <p>
+                                <ion-text>Instructions for inside the terminal meet and greet for domestic flights
+                                    arrival:</ion-text>
+                                Your chauffeur will wait for you inside the terminal at the baggage claim area or beyond
+                                the security checkpoint with nameboard.
+                            </p>
+                        </ion-item>
+
+                        <ion-item outside *ngIf="buttonClickedFourth">
+                            <p>
+                                <ion-text>Instructions for outside the terminal pickup (Curbside collection):</ion-text>
+                                Our vehicle will be at the airport, standing by. Once you have gathered your luggage and
+                                are ready to walk outside,
+                                please call our office to let us know that you are ready to go. Our dispatcher will find
+                                out where you are and advise you which vehicle is there for you, and will also ask the
+                                chauffeur to pull up to the terminal to pick you up.
+                            </p>
+                        </ion-item>
+
+                    </ion-card>
+                </div>
+                <div FROM-PLACNAME *ngIf="locationType == 'B'">
+
+                    <div class="form-section">
+                        <ion-label class="to-location" position="stacked"> From </ion-label>
+                        <ion-text>{{locationAddress}}</ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Name of Place</ion-label>
+                        <ion-input type="text" debounce="500">{{locationstart}}</ion-input>
+                    </div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Drop-off details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+
+
+                <div TO-AIRPORT *ngIf="tolocationType == 'A'">
+                    <div class="form-section">
+                        <ion-label class="to-location" position="stacked"> To </ion-label>
+                        <ion-text> {{locationend}} </ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Airline Name</ion-label>
+                        <ion-input type="text" debounce="500" formControlName="AirlineName2"
+                            (ionInput)="getItems($event)"></ion-input>
+                    </div>
+                    <ion-list *ngIf="isItemAvailable">
+                        <ng-container *ngFor="let item of items">
+                            <div class="list" *ngIf="item.AirCode" (click)="putvalue3(item)">
+                                {{ item.AirCode }}
+                            </div>
+                        </ng-container>
+                    </ion-list>
+                    <div class="form-section">
+                        <ion-label position="stacked">Flight Number</ion-label>
+                        <ion-input type="text" formControlName="FlightNumber2"></ion-input>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Departure Time</ion-label>
+                        <ion-datetime display-format="hh:mm A" formControlName="DepartureTime"
+                            placeholder="Select Departure Time"></ion-datetime>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Terminal</ion-label>
+                        <ion-input type="text" formControlName="Terminal2"></ion-input>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Destination Airport</ion-label>
+                        <ion-input type="text" formControlName="DestinationAirport"></ion-input>
+                    </div>
+                </div>
+
+                <div TO-PLACNAME *ngIf="tolocationType == 'B'">
+
+                    <div class="form-section">
+                        <ion-label class="to-location" position="stacked"> To </ion-label>
+                        <ion-text>{{tolocationAddress}}</ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Name of Place</ion-label>
+                        <ion-input type="text" debounce="500">{{locationend}}</ion-input>
+                    </div>
+                </div>
+
+            </ion-card-content>
+        </ion-card>
+
+
+
+        <ion-card>
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Passenger details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> No. Of Passengers </ion-label>
+                    <ion-select placeholder="0" interface="popover" formControlName="Passengers">
+                        <ion-select-option *ngFor="let item of PassangerListCount" [value]="item">{{item}}
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('Passengers').hasError('required') ) && form1.get('Passengers').touched">
+                    <div class="error"
+                        *ngIf="form1.get('Passengers').hasError('required') && form1.get('Passengers').touched">
+                        Please select Passengers
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> No. Of Suitcases </ion-label>
+                    <ion-select placeholder="0" interface="popover" formControlName="Suitcases">
+                        <ion-select-option *ngFor="let item of listofSuitcases" [value]="item">{{item}}
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('Suitcases').hasError('required') ) && form1.get('Suitcases').touched">
+                    <div class="error"
+                        *ngIf="form1.get('Suitcases').hasError('required') && form1.get('Suitcases').touched">
+                        Please select Suitcases
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> Special Instructions</ion-label>
+                    <ion-textarea style="height: 40px;" type="text" formControlName="SpecialInstruction"></ion-textarea>
+                </div>
+            </ion-card-content>
+        </ion-card>
+
+        <!-- //---------------------Roundtrip-------------------------->
+
+        <div id="returntrip" bg *ngIf="serviceName == 'Round Trip'">
+            <ion-label>Step 2 of 2 - Return Trip</ion-label>
+        </div>
+
+        <ion-toolbar class="date-time-row" *ngIf="serviceName == 'Round Trip'">
+            <ion-item lines="none">
+                <div class="roundtrip--from-to-location">
+                    <b> {{locationend}} </b>
+                    <b> <small>to</small> {{locationstart}}</b>
+                </div>
+            </ion-item>
+        </ion-toolbar>
+        <ion-toolbar class="home-page" *ngIf="serviceName == 'Round Trip'">
+            <div class="calculator-card">
+                <ion-item class="date-time-row" lines="none">
+                    <ion-col size="6" class="padding-0">
+                        <ion-item class="no__padding" lines="none">
+                            <ion-label position="stacked">RETURN DATE </ion-label>
+                            <div>
+                                <span class="date">{{selectDate2}}</span>
+                                <span class="month">{{selectMonthYear2}}</span>
+                                <span class="month-year">{{selectDay2}}</span>
+
+                            </div>
+                        </ion-item>
+                    </ion-col>
+
+
+                    <ion-col size="6" class="padding-0">
+                        <ion-item class="no__padding" lines="none">
+                            <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'A'">
+                                FLIGHT ARRIVAL TIME </ion-label>
+                            <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'B'">
+                                RETURN PICKUP TIME </ion-label>
+                            <div>
+                                <span class="date"> {{fulltime2}}</span>
+                                <span class="month-year"> {{halftime2}}</span>
+                            </div>
+                        </ion-item>
+                    </ion-col>
+                </ion-item>
+            </div>
+        </ion-toolbar>
+        <ion-toolbar *ngIf="serviceName == 'Round Trip'">
+            <ion-item lines="none">
+                <ion-text class="car_name">{{carName2}}</ion-text>
+                <div class="capacity" slot="end" style="margin-top:5px">
+                    <ion-col class="icons-row">
+                        <ion-img src={{carInside2}} class=""></ion-img>
+                    </ion-col>
+                </div>
+            </ion-item>
+        </ion-toolbar>
+
+        <ion-card *ngIf="serviceName == 'Round Trip' && total != null">
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Pick-up details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+                <div FROM-AIRPORT *ngIf="locationTypeR == 'A'">
+                    <div class="form-section">
+                        <ion-label class="to-location" position="stacked">From</ion-label>
+                        <ion-text>{{locationend}}</ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked"> <span class="mendatary"> * </span> Airline Name </ion-label>
+                        <ion-input type="text" debounce="500" formControlName="AirlineNameR"
+                            (ionInput)="getItems($event)">
+                        </ion-input>
+                    </div>
+                    <ion-list *ngIf="isItemAvailable">
+                        <ng-container *ngFor="let item of items">
+                            <div class="list" *ngIf="item.AirCode" (click)="putAirlineRoundtrip(item)">
+                                {{ item.AirCode }}
+                            </div>
+                        </ng-container>
+                    </ion-list>
+                    <div *ngIf="(form1.get('AirlineNameR').hasError('required') ) && form1.get('AirlineNameR').touched">
+                        <div class="error"
+                            *ngIf="form1.get('AirlineNameR').hasError('required') && form1.get('AirlineNameR').touched">
+                            Please select Airline Name
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked"> <span class="mendatary"> * </span>Flight Number</ion-label>
+                        <ion-input type="text" formControlName="FlightNumberR"></ion-input>
+                    </div>
+                    <div
+                        *ngIf="(form1.get('FlightNumberR').hasError('required') ) && form1.get('FlightNumberR').touched">
+                        <div class="error"
+                            *ngIf="form1.get('FlightNumberR').hasError('required') && form1.get('FlightNumberR').touched">
+                            Please select Flight Number
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Terminal</ion-label>
+                        <ion-select placeholder="--" formControlName="TerminalR" *ngIf="terminalNumber2 != 0">
+                            <ion-select-option *ngFor="let item of terminalNumber2" [value]="item.Value">{{item.Text}}
+                            </ion-select-option>
+                        </ion-select>
+                        <ion-input type="text" formControlName="TerminalR" *ngIf="terminalNumber2 == 0"></ion-input>
+                    </div>
+
+                    <div class="form-section">
+                        <ion-label position="stacked"> <span class="mendatary"> * </span>Origin Airport</ion-label>
+                        <ion-input type="text" debounce="500" formControlName="OriginAirportR"
+                            (ionInput)="getorigin($event)"></ion-input>
+                    </div>
+                    <ion-list *ngIf="isItemAvailable2">
+                        <ng-container *ngFor="let item of list">
+                            <div class="list" *ngIf="item.AirportName" (click)="putOriginAirport(item)">
+                                {{ item.AirportName }}
+                            </div>
+                        </ng-container>
+                    </ion-list>
+                    <div
+                        *ngIf="(form1.get('OriginAirportR').hasError('required') ) && form1.get('OriginAirportR').touched">
+                        <div class="error"
+                            *ngIf="form1.get('OriginAirportR').hasError('required') && form1.get('OriginAirportR').touched">
+                            Please select Origin Airport
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <ion-label class="type_of_flight" position="stacked"> <span class="mendatary"> * </span> Type Of
+                            Flight </ion-label>
+                    </div>
+                    <ion-row class="radio-section">
+                        <ion-col size="12">
+                            <ion-radio-group formControlName="FlightTypeR">
+                                <ion-col size="6">
+                                    <ion-list>
+                                        <ion-radio class="second-radio" slot="start" (click)="onButtonClickR()"
+                                            value="INTERNATIONAL FLIGHT">
+                                        </ion-radio>
+                                        <ion-label>International Flight</ion-label>
+                                    </ion-list>
+                                </ion-col>
+
+                                <ion-col size="6">
+                                    <ion-list>
+                                        <ion-radio slot="start" (click)="onButtonClick1R()" value="DOMESTIC FLIGHT">
+                                        </ion-radio>
+                                        <ion-label>Domestic Flight</ion-label>
+                                    </ion-list>
+                                </ion-col>
+                            </ion-radio-group>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-card INTERNATIONAL-FLIGHT *ngIf="buttonClickedFirst">
+                        <ion-row>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Flight Arrival Time
+                                </ion-label>
+
+                                <ion-datetime #picker displayFormat='hh:mm A'
+                                    (ionChange)='onChangeTime($event.target.value)' pickerFormat='hh:mm A'
+                                    formControlName="flight_arrival_timeR"></ion-datetime>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> Delayed PickUp
+                                </ion-label>
+                                <ion-select (ionChange)="optionsFn($event.target.value)" placeholder="No"
+                                    formControlName="DelayedPickupR">
+                                    <ion-select-option value="0"> No </ion-select-option>
+                                    <ion-select-option value="15"> 15 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="30"> 30 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="45"> 45 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="60"> 60 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="75"> 75 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="90"> 90 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="105"> 105 Minutes
+                                    </ion-select-option>
+                                    <ion-select-option value="120"> 120 Minutes
+                                    </ion-select-option>
+                                </ion-select>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> Driver On Location Time
+                                </ion-label>
+                                <ion-text> {{DriverLocation}} </ion-text>
+                            </div>
+
+                            <div class="form-section">
+                                <ion-label position="stacked"> Free Waiting Time
+                                </ion-label>
+                                <ion-text> 45 Minutes </ion-text>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> PickUp Time
+                                </ion-label>
+                                <ion-text> {{addminute}} </ion-text>
+                            </div>
+                        </ion-row>
+                        <div class="form-section">
+                            <ion-label style="color: #000;font-weight: bolder;" position="stacked">Airport Waiting Time
+                            </ion-label>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange == 0">
+                                Your rate includes 45 minutes free waiting time at the airport to allow you to pass
+                                immigration, gather your luggage and go through customs. If your flight is delayed your
+                                45 minutes will not start until the flight has landed.
+                            </ion-text>
+
+                            <ion-text *ngIf="TimeChange == 15">
+                                Your transfer will be booked for 15 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 60 minutes in total (from your
+                                flight arrival). If your flight is delayed your 60 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 30">
+                                Your transfer will be booked for 30 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 75 minutes in total (from your
+                                flight arrival). If your flight is delayed your 75 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 45">
+                                Your transfer will be booked for 45 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 90 minutes in total (from your
+                                flight arrival). If your flight is delayed your 90 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 60">
+                                Your transfer will be booked for 60 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 105 minutes in total (from your
+                                flight arrival). If your flight is delayed your 105 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 75">
+                                Your transfer will be booked for 75 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 120 minutes in total (from your
+                                flight arrival). If your flight is delayed your 120 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 90">
+                                Your transfer will be booked for 90 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 135 minutes in total (from your
+                                flight arrival). If your flight is delayed your 135 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 105">
+                                Your transfer will be booked for 105 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 150 minutes in total (from your
+                                flight arrival). If your flight is delayed your 150 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                            <ion-text *ngIf="TimeChange == 120">
+                                Your transfer will be booked for 120 minutes after your flight arrival time to allow you
+                                to pass immigration,gather your luggage and go through customs. You then have a further
+                                45 minutes waiting time included in the price giving you 165 minutes in total (from your
+                                flight arrival). If your flight is delayed your 165 minutes will not start until the
+                                flight has landed.
+                            </ion-text>
+                        </div>
+                        <div class="form-section" *ngIf="hide">
+                            <ion-label class="type_of_flight" position="stacked"> <span class="mendatary"> * </span>
+                                Meeting Point</ion-label>
+                        </div>
+                        <ion-row *ngIf="hide1" class="radio-section">
+                            <ion-col size="12">
+                                <ion-radio-group style="display: block;" formControlName="MeetingPointR">
+                                    <ion-list>
+                                        <ion-radio (click)="onButtonClick2()" slot="start" checked
+                                            value="Inside the terminal at baggage claim area"></ion-radio>
+                                        <ion-label>Inside the terminal at baggage claim area</ion-label>
+                                    </ion-list>
+                                    <ion-list style="padding: 0; display: flex;">
+                                        <ion-radio (click)="onButtonClick3()" class="second-radio second-radio--second" slot="start"
+                                            value="Outside the terminal at the passenger pick-up area">
+                                        </ion-radio>
+                                        <ion-label>Outside the terminal at the passenger pick-up area</ion-label>
+                                    </ion-list>
+                                </ion-radio-group>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-item inside *ngIf="buttonClickedThird">
+                            <p>
+                                <ion-text position="stacked">Instructions for inside the terminal meet and greet for
+                                    domestic flights
+                                    arrival:</ion-text>
+                                Your chauffeur will wait for you inside the terminal at the baggage claim area or beyond
+                                the security checkpoint with nameboard.
+                            </p>
+                        </ion-item>
+
+                        <ion-item outside *ngIf="buttonClickedFourth">
+                            <p>
+                                <ion-text position="stacked">Instructions for outside the terminal pickup (Curbside
+                                    collection):</ion-text>
+                                Our vehicle will be at the airport, standing by. Once you have gathered your luggage and
+                                are ready to walk outside, please call our office to let us know that you are ready to
+                                go. Our dispatcher will find
+                                out where you are and advise you which vehicle is there for you, and will also ask the
+                                chauffeur to pull up to the terminal to pick you up.
+                            </p>
+                        </ion-item>
+
+                    </ion-card>
+                    <ion-card DOMESTIC-FLIGHT *ngIf="buttonClickedSecond">
+
+                        <ion-row>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Flight Arrival Time
+                                </ion-label>
+
+                                <ion-datetime #picker displayFormat='hh:mm A'
+                                    (ionChange)='onChangeTime1($event.target.value)' pickerFormat='hh:mm A'
+                                    formControlName="flight_arrival_time1R"></ion-datetime>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Delayed PickUp
+                                </ion-label>
+                                <ion-select (ionChange)="optionsFn1($event.target.value)" placeholder="30 Minutes">
+                                    <ion-select-option value="0">No</ion-select-option>
+                                    <ion-select-option value="15">15 Minutes</ion-select-option>
+                                    <ion-select-option value="30">30 Minutes</ion-select-option>
+                                    <ion-select-option value="45">45 Minutes</ion-select-option>
+                                    <ion-select-option value="60">60 Minutes</ion-select-option>
+                                    <ion-select-option value="90">90 Minutes</ion-select-option>
+                                    <ion-select-option value="105">105 Minutes</ion-select-option>
+                                    <ion-select-option value="120">120 Minutes</ion-select-option>
+                                </ion-select>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Driver On Location
+                                    Time
+                                </ion-label>
+                                <ion-text> {{DriverLocation1}} </ion-text>
+                            </div>
+
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> Free Waiting Time
+                                </ion-label>
+                                <ion-text> 30 Minutes </ion-text>
+                            </div>
+                            <div class="form-section">
+                                <ion-label position="stacked"> <span class="mendatary"> * </span> PickUp Time
+                                </ion-label>
+                                <ion-text> {{addminute1}} </ion-text>
+                            </div>
+                        </ion-row>
+                        <div class="form-section">
+                            <ion-label style="color: #000;font-weight: bolder;" position="stacked">Airport Waiting Time
+                            </ion-label>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 0">
+                                Your rate includes 30 minutes free waiting time at the airport to allow you to gather
+                                your luggage. If your flight is delayed your 30 minutes will not start until the flight
+                                has landed.
+                            </ion-text>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 15">
+                                Your transfer will be booked for 15 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 45 minutes in total (from your flight arrival). If your flight is
+                                delayed your 45 minutes will not start until the flight has landed.
+                            </ion-text>
+
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 30">
+                                Your transfer will be booked for 30 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 60 minutes in total (from your flight arrival). If your flight is
+                                delayed your 60 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 45">
+                                Your transfer will be booked for 45 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 75 minutes in total (from your flight arrival). If your flight is
+                                delayed your 75 minutes will not start until the flight has landed.
+
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 60">
+                                Your transfer will be booked for 60 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 90 minutes in total (from your flight arrival). If your flight is
+                                delayed your 90 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 75">
+                                Your transfer will be booked for 75 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 105 minutes in total (from your flight arrival). If your flight is
+                                delayed your 105 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 90">
+                                Your transfer will be booked for 90 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 120 minutes in total (from your flight arrival). If your flight is
+                                delayed your 120 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 105">
+                                Your transfer will be booked for 105 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 135 minutes in total (from your flight arrival). If your flight is
+                                delayed your 135 minutes will not start until the flight has landed.
+                            </ion-text>
+                            <ion-text style="font-weight: 500;margin-bottom: 0.5rem;" *ngIf="TimeChange1 == 120">
+
+                                Your transfer will be booked for 120 minutes after your flight arrival time to allow you
+                                to gather your luggage. You then have a further 30 minutes waiting time included in the
+                                price giving you 150 minutes in total (from your flight arrival). If your flight is
+                                delayed your 150 minutes will not start until the flight has landed.
+                            </ion-text>
+                        </div>
+                        <div class="form-section">
+                            <ion-label class="type_of_flight" position="stacked">Meeting Point</ion-label>
+                        </div>
+                        <ion-row class="radio-section">
+                            <ion-col size="12">
+                                <ion-radio-group style="display: block;" formControlName="MeetingPointR">
+                                    <ion-list>
+                                        <ion-radio (click)="onButtonClick2()" slot="start" checked
+                                            value="Inside the terminal at baggage claim area"></ion-radio>
+                                        <ion-label>Inside the terminal at baggage claim area</ion-label>
+                                    </ion-list>
+                                    <ion-list style="padding: 0; display: flex;">
+                                        <ion-radio (click)="onButtonClick3()" class="second-radio second-radio--second" slot="start"
+                                            value="Outside the terminal at the passenger pick-up area"></ion-radio>
+                                        <ion-label>Outside the terminal at the passenger pick-up area</ion-label>
+                                    </ion-list>
+                                </ion-radio-group>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-item inside *ngIf="buttonClickedThird">
+                            <p>
+                                <ion-text>Instructions for inside the terminal meet and greet for domestic flights
+                                    arrival:</ion-text>
+                                Your chauffeur will wait for you inside the terminal at the baggage claim area or beyond
+                                the security checkpoint with nameboard.
+                            </p>
+                        </ion-item>
+
+                        <ion-item outside *ngIf="buttonClickedFourth">
+                            <p>
+                                <ion-text>Instructions for outside the terminal pickup (Curbside collection):</ion-text>
+                                Our vehicle will be at the airport, standing by. Once you have gathered your luggage and
+                                are ready to walk outside,
+                                please call our office to let us know that you are ready to go. Our dispatcher will find
+                                out where you are and advise you which vehicle is there for you, and will also ask the
+                                chauffeur to pull up to the terminal to pick you up.
+                            </p>
+                        </ion-item>
+
+                    </ion-card>
+
+                </div>
+                <div FROM-PLACNAME *ngIf="locationTypeR == 'B'">
+
+                    <div class="form-section">
+                        <ion-label class="to-location" position="stacked"> From</ion-label>
+                        <ion-text>{{tolocationAddress}}</ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Name of Place</ion-label>
+                        <ion-input type="text" debounce="500">{{locationend}}</ion-input>
+                    </div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card *ngIf="serviceName == 'Round Trip' && total != null">
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Drop-off details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+                <div TO-AIRPORT *ngIf="tolocationTypeR == 'A'">
+                    <div class="form-section">
+                        <ion-label class="to-location" position="stacked"> To </ion-label>
+                        <ion-text> {{locationstart}} </ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Airline Name</ion-label>
+                        <ion-input type="text" debounce="500" formControlName="AirlineName2R"
+                            (ionInput)="getItems($event)"></ion-input>
+                    </div>
+                    <ion-list *ngIf="isItemAvailable">
+                        <ng-container *ngFor="let item of items">
+                            <div class="list" *ngIf="item.AirCode" (click)="putAirline2Roundtrip(item)">
+                                {{ item.AirCode }}
+                            </div>
+                        </ng-container>
+                    </ion-list>
+                    <div class="form-section">
+                        <ion-label position="stacked">Flight Number</ion-label>
+                        <ion-input type="text" formControlName="FlightNumber2R"></ion-input>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Departure Time</ion-label>
+                        <ion-datetime display-format="hh:mm A" formControlName="DepartureTimeR"
+                            placeholder="Select Departure Time"></ion-datetime>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Terminal</ion-label>
+                        <ion-input type="text" formControlName="Terminal2R"></ion-input>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Destination Airport</ion-label>
+                        <ion-input type="text" formControlName="DestinationAirportR"></ion-input>
+                    </div>
+                </div>
+
+                <div TO-PLACNAME *ngIf="tolocationTypeR == 'B'">
+
+                    <div class="form-section">
+                        <ion-label class="from" position="stacked"> To </ion-label>
+                        <ion-text>{{locationAddress}}</ion-text>
+                    </div>
+                    <div class="form-section">
+                        <ion-label position="stacked">Name of Place</ion-label>
+                        <ion-input type="text" debounce="500">{{locationstart}}</ion-input>
+                    </div>
+                </div>
+
+            </ion-card-content>
+        </ion-card>
+
+
+
+        <ion-card *ngIf="serviceName == 'Round Trip' && total != null">
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Passenger details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> No. Of Passengers </ion-label>
+                    <ion-select placeholder="0" interface="popover" formControlName="Passengers2">
+                        <ion-select-option *ngFor="let item of PassangerListCount2" [value]="item">{{item}}
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('Passengers2').hasError('required') ) && form1.get('Passengers2').touched">
+                    <div class="error"
+                        *ngIf="form1.get('Passengers2').hasError('required') && form1.get('Passengers2').touched">
+                        Please select Passengers
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> No. Of Suitcases </ion-label>
+                    <ion-select placeholder="0" interface="popover" formControlName="Suitcases2">
+                        <ion-select-option *ngFor="let item of listofSuitcases2" [value]="item">{{item}}
+                        </ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('Suitcases2').hasError('required') ) && form1.get('Suitcases2').touched">
+                    <div class="error"
+                        *ngIf="form1.get('Suitcases2').hasError('required') && form1.get('Suitcases2').touched">
+                        Please select Suitcases
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> Special Instructions</ion-label>
+                    <ion-textarea style="height: 40px;" type="text" formControlName="SpecialInstruction2">
+                    </ion-textarea>
+                </div>
+            </ion-card-content>
+        </ion-card>
+
+        <!-- //---------------------Roundtrip-------------------------->
+
+        <div bg *ngIf="serviceName == 'Round Trip'"></div>
+
+        <ion-card>
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Contact details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Email </ion-label>
+                    <ion-input type="text" formControlName="Email"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('Email').hasError('pattern') ) && form1.get('Email').touched">
+                    <div class="error" *ngIf="form1.get('Email').hasError('pattern') && form1.get('Email').touched">
+                        Please Enter valid Email id
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> First Name </ion-label>
+                    <ion-input type="text" formControlName="FirstName"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('FirstName').hasError('required') ) && form1.get('FirstName').touched">
+                    <div class="error"
+                        *ngIf="form1.get('FirstName').hasError('required') && form1.get('FirstName').touched">
+                        Please Enter First Name
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Last Name </ion-label>
+                    <ion-input type="text" formControlName="LastName"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('LastName').hasError('required') ) && form1.get('LastName').touched">
+                    <div class="error"
+                        *ngIf="form1.get('LastName').hasError('required') && form1.get('LastName').touched">
+                        Please Enter Last Name
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> CellPhone Number </ion-label>
+                    <ion-input type="number" formControlName="PhoneNumber"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('PhoneNumber').hasError('required') ) && form1.get('PhoneNumber').touched">
+                    <div class="error"
+                        *ngIf="form1.get('PhoneNumber').hasError('required') && form1.get('PhoneNumber').touched">
+                        Please Enter Cellphone Number
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> TelePhone Number </ion-label>
+                    <ion-input type="number" formControlName="TelephoneNumber"></ion-input>
+                </div>
+
+                <ion-row class="radio-section">
+                    <ion-col size="12">
+                        <ion-label class="confirm_text">Are you booking this reservation for someone else?</ion-label>
+                        <ion-radio-group style="margin-left: 0px;" formControlName="BookingFor">
+                            <ion-list>
+                                <ion-radio slot="start" value="NO" (click)="onButtonClickNo()" checked></ion-radio>
+                                <ion-label> NO </ion-label>
+                            </ion-list>
+                            <ion-list>
+                                <ion-radio class="second-radio" (click)="onButtonClickYes()" slot="start" value="YES">
+                                </ion-radio>
+                                <ion-label> YES </ion-label>
+                            </ion-list>
+                        </ion-radio-group>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card DOMESTIC *ngIf="buttonClickedYes">
+            <ion-card-content nopadding>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Passenger's First Name
+                    </ion-label>
+                    <ion-input type="text" formControlName="Passengerfirstname"></ion-input>
+                </div>
+                <ion-item lines="none"
+                    *ngIf="(form1.get('Passengerfirstname').hasError('required') ) && form1.get('Passengerfirstname').touched">
+                    <div class="error"
+                        *ngIf="form1.get('Passengerfirstname').hasError('required') && form1.get('Passengerfirstname').touched">
+                        Please Enter First Name
+                    </div>
+                </ion-item>
+
+                <div class="form-section">
+                    <ion-label position="stacked"> Passenger's Last Name </ion-label>
+                    <ion-input type="text" formControlName="Passengerlastname"></ion-input>
+                </div>
+
+                <div class="form-section">
+                    <ion-label position="stacked"> Passenger's CellPhone Number
+                    </ion-label>
+                    <ion-input type="text" formControlName="Passengercellphone"></ion-input>
+                </div>
+
+                <div class="form-section">
+                    <ion-label position="stacked"> Passenger's TelePhone Number
+                    </ion-label>
+                    <ion-input type="number" formControlName="Passengertelephone"></ion-input>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> Passenger's Email </ion-label>
+                    <ion-input type="text" formControlName="Passengeremail"></ion-input>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <ion-card style="display: none;" INTERNATIONAL *ngIf="buttonClickedNo">
+        </ion-card>
+
+
+        <ion-card>
+            <ion-card-header class="ion-card-headers">
+                <ion-label> Payment details </ion-label>
+            </ion-card-header>
+            <ion-card-content nopadding>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Credit Card Type </ion-label>
+                    <ion-select placeholder="" interface="popover" formControlName="CardType">
+                        <ion-select-option value="VISA">Visa</ion-select-option>
+                        <ion-select-option value="MASTER">Master</ion-select-option>
+                        <ion-select-option value="DESERVE PRO">Deserve Pro</ion-select-option>
+                        <ion-select-option value="DESERVE EDU">Deserve Edu</ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('CardType').hasError('required') ) && form1.get('CardType').touched">
+                    <div class="error"
+                        *ngIf="form1.get('CardType').hasError('required') && form1.get('CardType').touched">
+                        Please Select Credit Card Type
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Credit Card No. </ion-label>
+                    <ion-input type="tel" formControlName="CardNumber" minlength="16" maxlength="16"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('CardNumber').hasError('required') ) && form1.get('CardNumber').touched">
+                    <div class="error"
+                        *ngIf="form1.get('CardNumber').hasError('required') && form1.get('CardNumber').touched">
+                        Please Select Credit Card Number
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Exp Month </ion-label>
+                    <ion-select placeholder="" interface="popover" formControlName="ExpMonth"
+                        (ionChange)="getCardYear($event,value)">
+                        <ion-select-option value="01">January</ion-select-option>
+                        <ion-select-option value="02">February</ion-select-option>
+                        <ion-select-option value="03">March</ion-select-option>
+                        <ion-select-option value="04">April</ion-select-option>
+                        <ion-select-option value="05">May</ion-select-option>
+                        <ion-select-option value="06">June</ion-select-option>
+                        <ion-select-option value="07">July</ion-select-option>
+                        <ion-select-option value="08">Augest</ion-select-option>
+                        <ion-select-option value="09">September</ion-select-option>
+                        <ion-select-option value="10">October</ion-select-option>
+                        <ion-select-option value="11">November</ion-select-option>
+                        <ion-select-option value="12">December</ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('ExpMonth').hasError('required') ) && form1.get('ExpMonth').touched">
+                    <div class="error"
+                        *ngIf="form1.get('ExpMonth').hasError('required') && form1.get('ExpMonth').touched">
+                        Please Select Expiry Month
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Exp Year </ion-label>
+                    <ion-select placeholder="" interface="popover" formControlName="ExpYear">
+                        <ion-select-option *ngFor="let item of cardYear">{{item.Text}}</ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('ExpYear').hasError('required') ) && form1.get('ExpYear').touched">
+                    <div class="error"
+                        *ngIf="form1.get('ExpYear').hasError('required') && form1.get('ExpYear').touched">
+                        Please Select Expiry Year
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Cvv </ion-label>
+                    <ion-input type="tel" formControlName="CVV" maxlength="3"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('CVV').hasError('required') ) && form1.get('CVV').touched">
+                    <div class="error" *ngIf="form1.get('CVV').hasError('required') && form1.get('CVV').touched">
+                        Please Enter CVV
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Card Holder's Name </ion-label>
+                    <ion-input type="text" formControlName="CardHolder"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('CardHolder').hasError('required') ) && form1.get('CardHolder').touched">
+                    <div class="error"
+                        *ngIf="form1.get('CardHolder').hasError('required') && form1.get('CardHolder').touched">
+                        Please Enter Card Holder's Name
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Address 1 </ion-label>
+                    <ion-input placeholder="" type="text" formControlName="Address1"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('Address1').hasError('required') ) && form1.get('Address1').touched">
+                    <div class="error"
+                        *ngIf="form1.get('Address1').hasError('required') && form1.get('Address1').touched">
+                        Please Enter Address
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">Address 2</ion-label>
+                    <ion-input placeholder="" type="text" formControlName="Address2"></ion-input>
+                </div>
+
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> City </ion-label>
+                    <ion-input placeholder="" type="text" formControlName="City"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('City').hasError('required') ) && form1.get('City').touched">
+                    <div class="error" *ngIf="form1.get('City').hasError('required') && form1.get('City').touched">
+                        Please Enter City
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> State </ion-label>
+                    <ion-input placeholder="" type="text" formControlName="State"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('State').hasError('required') ) && form1.get('State').touched">
+                    <div class="error" *ngIf="form1.get('State').hasError('required') && form1.get('State').touched">
+                        Please Enter State
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Zipcode </ion-label>
+                    <ion-input placeholder="" type="number" formControlName="ZipCode"></ion-input>
+                </div>
+                <div *ngIf="(form1.get('ZipCode').hasError('required') ) && form1.get('ZipCode').touched">
+                    <div class="error"
+                        *ngIf="form1.get('ZipCode').hasError('required') && form1.get('ZipCode').touched">
+                        Please Enter ZipCode
+                    </div>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked"> <span class="mendatary"> * </span> Country </ion-label>
+                    <ion-select formControlName="Country">
+                        <ion-select-option value="0">---</ion-select-option>
+                        <ion-select-option value="AF">Afghanistan</ion-select-option>
+                        <ion-select-option value="AL">Albania</ion-select-option>
+                        <ion-select-option value="AX">Åland Islands</ion-select-option>
+                        <ion-select-option value="AO">Angola</ion-select-option>
+                        <ion-select-option value="DZ">Algeria</ion-select-option>
+                        <ion-select-option value="AS">American Samoa</ion-select-option>
+                        <ion-select-option value="AD">Andorra</ion-select-option>
+                        <ion-select-option value="AI">Anguilla</ion-select-option>
+                        <ion-select-option value="AQ">Antarctica</ion-select-option>
+                        <ion-select-option value="AG">Antigua And Barbuda</ion-select-option>
+                        <ion-select-option value="AR">Argentina</ion-select-option>
+                        <ion-select-option value="AM">Armenia</ion-select-option>
+                        <ion-select-option value="AW">Aruba</ion-select-option>
+                        <ion-select-option value="AU">Australia</ion-select-option>
+                        <ion-select-option value="AT">Austria</ion-select-option>
+                        <ion-select-option value="AZ">Azerbaijan</ion-select-option>
+                        <ion-select-option value="BS">Bahamas</ion-select-option>
+                        <ion-select-option value="BH">Bahrain</ion-select-option>
+                        <ion-select-option value="BD">Bangladesh</ion-select-option>
+                        <ion-select-option value="BB">Barbados</ion-select-option>
+                        <ion-select-option value="BY">Belarus</ion-select-option>
+                        <ion-select-option value="BE">Belgium</ion-select-option>
+                        <ion-select-option value="BZ">Belize</ion-select-option>
+                        <ion-select-option value="BJ">Benin</ion-select-option>
+                        <ion-select-option value="BM">Bermuda</ion-select-option>
+                        <ion-select-option value="BT">Bhutan</ion-select-option>
+                        <ion-select-option value="BO">Bolivia</ion-select-option>
+                        <ion-select-option value="BA">Bosnia and Herzegovina</ion-select-option>
+                        <ion-select-option value="BW">Botswana</ion-select-option>
+                        <ion-select-option value="BV">Bouvet Island</ion-select-option>
+                        <ion-select-option value="BR">Brazil</ion-select-option>
+                        <ion-select-option value="IO">British Indian Ocean Territory</ion-select-option>
+                        <ion-select-option value="BN">Brunei Darussalam</ion-select-option>
+                        <ion-select-option value="BG">Bulgaria</ion-select-option>
+                        <ion-select-option value="BF">Burkina Faso</ion-select-option>
+                        <ion-select-option value="BI">Burundi</ion-select-option>
+                        <ion-select-option value="KH">Cambodia</ion-select-option>
+                        <ion-select-option value="CM">Cameroon</ion-select-option>
+                        <ion-select-option value="CA">Canada</ion-select-option>
+                        <ion-select-option value="CV">Cape Verde</ion-select-option>
+                        <ion-select-option value="KY">Cayman Islands</ion-select-option>
+                        <ion-select-option value="CF">Central African Republic</ion-select-option>
+                        <ion-select-option value="TD">Chad</ion-select-option>
+                        <ion-select-option value="CL">Chile</ion-select-option>
+                        <ion-select-option value="CN">China</ion-select-option>
+                        <ion-select-option value="CX">Christmas Island</ion-select-option>
+                        <ion-select-option value="CC">Cocos (Keeling) Islands</ion-select-option>
+                        <ion-select-option value="CO">Colombia</ion-select-option>
+                        <ion-select-option value="KM">Comoros</ion-select-option>
+                        <ion-select-option value="CG">Congo</ion-select-option>
+                        <ion-select-option value="CD">Congo, the Democratic Republic of the</ion-select-option>
+                        <ion-select-option value="CK">Cook Islands</ion-select-option>
+                        <ion-select-option value="CR">Costa Rica</ion-select-option>
+                        <ion-select-option value="CI">Cote d'Ivoire</ion-select-option>
+                        <ion-select-option value="HR">Croatia</ion-select-option>
+                        <ion-select-option value="CY">Cyprus</ion-select-option>
+                        <ion-select-option value="CZ">Czech Republic</ion-select-option>
+                        <ion-select-option value="DK">Denmark</ion-select-option>
+                        <ion-select-option value="DJ">Djibouti</ion-select-option>
+                        <ion-select-option value="DM">Dominica</ion-select-option>
+                        <ion-select-option value="DO">Dominican Republic</ion-select-option>
+                        <ion-select-option value="TP">East Timor</ion-select-option>
+                        <ion-select-option value="EC">Ecuador</ion-select-option>
+                        <ion-select-option value="EG">Egypt</ion-select-option>
+                        <ion-select-option value="SV">El Salvador</ion-select-option>
+                        <ion-select-option value="GQ">Equatorial Guinea</ion-select-option>
+                        <ion-select-option value="ER">Eritrea</ion-select-option>
+                        <ion-select-option value="EE">Estonia</ion-select-option>
+                        <ion-select-option value="ET">Ethiopia</ion-select-option>
+                        <ion-select-option value="FK">Falkland Islands</ion-select-option>
+                        <ion-select-option value="FO">Faroe Islands</ion-select-option>
+                        <ion-select-option value="FJ">Fiji</ion-select-option>
+                        <ion-select-option value="FI">Finland</ion-select-option>
+                        <ion-select-option value="FR">France</ion-select-option>
+                        <ion-select-option value="GF">French Guiana</ion-select-option>
+                        <ion-select-option value="PF">French Polynesia</ion-select-option>
+                        <ion-select-option value="TF">French Southern Territories</ion-select-option>
+                        <ion-select-option value="GA">Gabon</ion-select-option>
+                        <ion-select-option value="GM">Gambia</ion-select-option>
+                        <ion-select-option value="GE">Georgia</ion-select-option>
+                        <ion-select-option value="DE">Germany</ion-select-option>
+                        <ion-select-option value="GH">Ghana</ion-select-option>
+                        <ion-select-option value="GI">Gibraltar</ion-select-option>
+                        <ion-select-option value="GR">Greece</ion-select-option>
+                        <ion-select-option value="GL">Greenland</ion-select-option>
+                        <ion-select-option value="GD">Grenada</ion-select-option>
+                        <ion-select-option value="GP">Guadeloupe</ion-select-option>
+                        <ion-select-option value="GU">Guam</ion-select-option>
+                        <ion-select-option value="GT">Guatemala</ion-select-option>
+                        <ion-select-option value="GG">Guernsey</ion-select-option>
+                        <ion-select-option value="GN">Guinea</ion-select-option>
+                        <ion-select-option value="GW">Guinea-Bissau</ion-select-option>
+                        <ion-select-option value="GY">Guyana</ion-select-option>
+                        <ion-select-option value="HT">Haiti</ion-select-option>
+                        <ion-select-option value="HM">Heard and Mc Donald Islands</ion-select-option>
+                        <ion-select-option value="HN">Honduras</ion-select-option>
+                        <ion-select-option value="HK">Hong Kong</ion-select-option>
+                        <ion-select-option value="HU">Hungary</ion-select-option>
+                        <ion-select-option value="IS">Iceland</ion-select-option>
+                        <ion-select-option value="IN">India</ion-select-option>
+                        <ion-select-option value="ID">Indonesia</ion-select-option>
+                        <ion-select-option value="IQ">Iraq</ion-select-option>
+                        <ion-select-option value="IE">Ireland</ion-select-option>
+                        <ion-select-option value="IM">Isle of Man</ion-select-option>
+                        <ion-select-option value="IL">Israel</ion-select-option>
+                        <ion-select-option value="IT">Italy</ion-select-option>
+                        <ion-select-option value="JM">Jamaica</ion-select-option>
+                        <ion-select-option value="JP">Japan</ion-select-option>
+                        <ion-select-option value="JE">Jersey</ion-select-option>
+                        <ion-select-option value="JO">Jordan</ion-select-option>
+                        <ion-select-option value="KZ">Kazakhstan</ion-select-option>
+                        <ion-select-option value="KE">Kenya</ion-select-option>
+                        <ion-select-option value="KI">Kiribati</ion-select-option>
+                        <ion-select-option value="KR">Korea, Republic of</ion-select-option>
+                        <ion-select-option value="KW">Kuwait</ion-select-option>
+                        <ion-select-option value="KG">Kyrgyzstan</ion-select-option>
+                        <ion-select-option value="LA">Lao People's Democratic Republic</ion-select-option>
+                        <ion-select-option value="LV">Latvia</ion-select-option>
+                        <ion-select-option value="LB">Lebanon</ion-select-option>
+                        <ion-select-option value="LS">Lesotho</ion-select-option>
+                        <ion-select-option value="LR">Liberia</ion-select-option>
+                        <ion-select-option value="LY">Libya</ion-select-option>
+                        <ion-select-option value="LI">Liechtenstein</ion-select-option>
+                        <ion-select-option value="LT">Lithuania</ion-select-option>
+                        <ion-select-option value="LU">Luxembourg</ion-select-option>
+                        <ion-select-option value="MO">Macau</ion-select-option>
+                        <ion-select-option value="MK">Macedonia</ion-select-option>
+                        <ion-select-option value="MG">Madagascar</ion-select-option>
+                        <ion-select-option value="MW">Malawi</ion-select-option>
+                        <ion-select-option value="MY">Malaysia</ion-select-option>
+                        <ion-select-option value="MV">Maldives</ion-select-option>
+                        <ion-select-option value="ML">Mali</ion-select-option>
+                        <ion-select-option value="MT">Malta</ion-select-option>
+                        <ion-select-option value="MH">Marshall Islands</ion-select-option>
+                        <ion-select-option value="MQ">Martinique</ion-select-option>
+                        <ion-select-option value="MR">Mauritania</ion-select-option>
+                        <ion-select-option value="MU">Mauritius</ion-select-option>
+                        <ion-select-option value="YT">Mayotte</ion-select-option>
+                        <ion-select-option value="MX">Mexico</ion-select-option>
+                        <ion-select-option value="FM">Micronesia, Federated States of</ion-select-option>
+                        <ion-select-option value="MD">Moldova, Republic of</ion-select-option>
+                        <ion-select-option value="MC">Monaco</ion-select-option>
+                        <ion-select-option value="MN">Mongolia</ion-select-option>
+                        <ion-select-option value="ME">Montenegro</ion-select-option>
+                        <ion-select-option value="MS">Montserrat</ion-select-option>
+                        <ion-select-option value="MA">Morocco</ion-select-option>
+                        <ion-select-option value="MZ">Mozambique</ion-select-option>
+                        <ion-select-option value="MM">Myanmar</ion-select-option>
+                        <ion-select-option value="NA">Namibia</ion-select-option>
+                        <ion-select-option value="NR">Nauru</ion-select-option>
+                        <ion-select-option value="NP">Nepal</ion-select-option>
+                        <ion-select-option value="NL">Netherlands</ion-select-option>
+                        <ion-select-option value="AN">Netherlands Antilles</ion-select-option>
+                        <ion-select-option value="NC">New Caledonia</ion-select-option>
+                        <ion-select-option value="NZ">New Zealand</ion-select-option>
+                        <ion-select-option value="NI">Nicaragua</ion-select-option>
+                        <ion-select-option value="NE">Niger</ion-select-option>
+                        <ion-select-option value="NG">Nigeria</ion-select-option>
+                        <ion-select-option value="NU">Niue</ion-select-option>
+                        <ion-select-option value="NF">Norfolk Island</ion-select-option>
+                        <ion-select-option value="MP">Northern Mariana Islands</ion-select-option>
+                        <ion-select-option value="NO">Norway</ion-select-option>
+                        <ion-select-option value="OM">Oman</ion-select-option>
+                        <ion-select-option value="PK">Pakistan</ion-select-option>
+                        <ion-select-option value="PW">Palau</ion-select-option>
+                        <ion-select-option value="PS">Palestinian Territories</ion-select-option>
+                        <ion-select-option value="PA">Panama</ion-select-option>
+                        <ion-select-option value="PG">Papua New Guinea</ion-select-option>
+                        <ion-select-option value="PY">Paraguay</ion-select-option>
+                        <ion-select-option value="PE">Peru</ion-select-option>
+                        <ion-select-option value="PH">Philippines</ion-select-option>
+                        <ion-select-option value="PN">Pitcairn</ion-select-option>
+                        <ion-select-option value="PL">Poland</ion-select-option>
+                        <ion-select-option value="PT">Portugal</ion-select-option>
+                        <ion-select-option value="PR">Puerto Rico</ion-select-option>
+                        <ion-select-option value="QA">Qatar</ion-select-option>
+                        <ion-select-option value="RE">Reunion</ion-select-option>
+                        <ion-select-option value="RO">Romania</ion-select-option>
+                        <ion-select-option value="RU">Russian Federation</ion-select-option>
+                        <ion-select-option value="RW">Rwanda</ion-select-option>
+                        <ion-select-option value="BL">Saint Barthélemy</ion-select-option>
+                        <ion-select-option value="KN">Saint Kitts and Nevis</ion-select-option>
+                        <ion-select-option value="LC">Saint Lucia</ion-select-option>
+                        <ion-select-option value="MF">Saint Martin</ion-select-option>
+                        <ion-select-option value="VC">Saint Vincent and the Grenadines</ion-select-option>
+                        <ion-select-option value="WS">Samoa (Independent)</ion-select-option>
+                        <ion-select-option value="SM">San Marino</ion-select-option>
+                        <ion-select-option value="ST">Sao Tome and Principe</ion-select-option>
+                        <ion-select-option value="SA">Saudi Arabia</ion-select-option>
+                        <ion-select-option value="SN">Senegal</ion-select-option>
+                        <ion-select-option value="RS">Serbia</ion-select-option>
+                        <ion-select-option value="SC">Seychelles</ion-select-option>
+                        <ion-select-option value="SL">Sierra Leone</ion-select-option>
+                        <ion-select-option value="SG">Singapore</ion-select-option>
+                        <ion-select-option value="SK">Slovakia</ion-select-option>
+                        <ion-select-option value="SI">Slovenia</ion-select-option>
+                        <ion-select-option value="SB">Solomon Islands</ion-select-option>
+                        <ion-select-option value="SO">Somalia</ion-select-option>
+                        <ion-select-option value="ZA">South Africa</ion-select-option>
+                        <ion-select-option value="GS">South Georgia and the South Sandwich Islands</ion-select-option>
+                        <ion-select-option value="ES">Spain</ion-select-option>
+                        <ion-select-option value="LK">Sri Lanka</ion-select-option>
+                        <ion-select-option value="SH">St. Helena</ion-select-option>
+                        <ion-select-option value="PM">St. Pierre and Miquelon</ion-select-option>
+                        <ion-select-option value="SR">Suriname</ion-select-option>
+                        <ion-select-option value="SJ">Svalbard and Jan Mayen Islands</ion-select-option>
+                        <ion-select-option value="SZ">Swaziland</ion-select-option>
+                        <ion-select-option value="SE">Sweden</ion-select-option>
+                        <ion-select-option value="CH">Switzerland</ion-select-option>
+                        <ion-select-option value="TW">Taiwan</ion-select-option>
+                        <ion-select-option value="TJ">Tajikistan</ion-select-option>
+                        <ion-select-option value="TZ">Tanzania</ion-select-option>
+                        <ion-select-option value="TH">Thailand</ion-select-option>
+                        <ion-select-option value="TG">Togo</ion-select-option>
+                        <ion-select-option value="TK">Tokelau</ion-select-option>
+                        <ion-select-option value="TO">Tonga</ion-select-option>
+                        <ion-select-option value="TT">Trinidad and Tobago</ion-select-option>
+                        <ion-select-option value="TN">Tunisia</ion-select-option>
+                        <ion-select-option value="TR">Turkey</ion-select-option>
+                        <ion-select-option value="TM">Turkmenistan</ion-select-option>
+                        <ion-select-option value="TC">Turks and Caicos Islands</ion-select-option>
+                        <ion-select-option value="TV">Tuvalu</ion-select-option>
+                        <ion-select-option value="UG">Uganda</ion-select-option>
+                        <ion-select-option value="UA">Ukraine</ion-select-option>
+                        <ion-select-option value="AE">United Arab Emirates</ion-select-option>
+                        <ion-select-option value="GB">United Kingdom</ion-select-option>
+                        <ion-select-option value="US" selected="selected">United States</ion-select-option>
+                        <ion-select-option value="UM">United States Minor Outlying Islands</ion-select-option>
+                        <ion-select-option value="UY">Uruguay</ion-select-option>
+                        <ion-select-option value="UZ">Uzbekistan</ion-select-option>
+                        <ion-select-option value="VU">Vanuatu</ion-select-option>
+                        <ion-select-option value="VA">Vatican City State (Holy See)</ion-select-option>
+                        <ion-select-option value="VE">Venezuela</ion-select-option>
+                        <ion-select-option value="VN">Viet Nam</ion-select-option>
+                        <ion-select-option value="VG">Virgin Islands (British)</ion-select-option>
+                        <ion-select-option value="VI">Virgin Islands (U.S.)</ion-select-option>
+                        <ion-select-option value="WF">Wallis and Futuna Islands</ion-select-option>
+                        <ion-select-option value="EH">Western Sahara</ion-select-option>
+                        <ion-select-option value="YE">Yemen</ion-select-option>
+                        <ion-select-option value="ZM">Zambia</ion-select-option>
+                        <ion-select-option value="ZW">Zimbabwe</ion-select-option>
+                    </ion-select>
+                </div>
+                <div *ngIf="(form1.get('Country').hasError('required') ) && form1.get('Country').touched">
+                    <div class="error"
+                        *ngIf="form1.get('Country').hasError('required') && form1.get('Country').touched">
+                        Please Enter Country
+                    </div>
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </form>
+</ion-content>
+
+
+<ion-footer>
+
+    <ion-item lines="none">
+        <ion-label *ngIf="final_Price !== null && serviceName !== 'Round Trip'">$ {{final_Price}} <ion-icon
+                name="information-circle-outline" (click)="presentModal()"></ion-icon>
+        </ion-label>
+        <ion-label *ngIf="serviceName == 'Round Trip' && total != null">$ {{total}} <ion-icon
+                name="information-circle-outline" (click)="presentModal()"></ion-icon><br>
+            <small style="color: #ffcb00;">Grand Total</small>
+        </ion-label>
+        <ion-button class="main-button main-button--next-page" [disabled]="!form1.valid" slot="end"
+            (click)="onSubmit()">Review Order
+        </ion-button>
+    </ion-item>
+
+</ion-footer>

@@ -1,0 +1,167 @@
+.airport-waiting-time {
+    font-weight: 800 !important;
+    color: #000;
+}
+.error {
+    color: red;
+    font-size: 13px;
+    padding: 4px 15px;
+    padding-bottom: 0px;
+}
+
+
+.full-width {
+    width: 100%;
+}
+
+.to-location {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
+ion-toolbar {
+    ion-text {
+        color: #000;
+    }
+}
+
+.icons-row {
+    display: flex;
+    font-size: 20px;
+    padding: 5px 0px;
+}
+
+ion-card {
+    ion-card-content {
+        .from {
+            margin-top: -10px;
+        }
+        ion-text {
+            display: block;
+        }
+        ion-row {
+            position: relative;
+           
+            .type_of_flight {
+                 margin: -4px 0 15px 15px;
+            }
+            ion-select {
+                font-weight: 800;
+                padding-top: 0.6rem;
+                padding-left: 0.4rem;
+                color: #000 !important;
+                opacity: 1;
+            }
+           
+
+            ion-item {
+                ion-datetime {
+                    font-weight: 800;
+                    padding-top: 0.6rem;
+                    padding-left: 0.4rem;
+                }
+                ion-text {
+                    margin-top: 1rem;
+                    margin-bottom: 0.5rem;
+                    margin-left: 0.5rem;
+                }      
+            }
+        }
+        p {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #000;
+        }
+            b {
+                font-size: 15px !important;
+            }
+        
+
+        .radio-section {
+            ion-radio-group {
+                display: flex;
+                ion-radio {
+                    margin-left: 5px;
+                    position: relative;
+                    top: 5px;
+                    margin-right: 5px;  
+                }
+            }   
+            .confirm_text {
+                font-size: 12.5px;
+                margin: 0 0 0 11px;
+                letter-spacing: 0.5px;
+                display: block;
+            }
+        }
+    }
+}
+
+
+.mendatary {
+    color: red;
+    font-size: 15px;
+}
+@media only screen and (min-width: 320px) and  (max-width: 340px) {
+    ion-card-content {
+        .radio-section {
+            ion-radio-group {
+                display: flex;
+                ion-radio {
+                    margin-left: 8px;
+                    position: relative;
+                    top: 5px;          
+                }
+                ion-label {
+                    font-size: 12px !important;
+                    color: #000;
+                }
+                .second-radio {
+                    margin-left: 5px !important;
+                }
+            }  
+            .confirm_text {
+                position: relative !important;
+                left: 10px !important;
+                margin: 0 !important;
+            } 
+        }
+    }
+    ion-toolbar {
+        ion-label {
+            font-size: 12px !important;
+        }
+    }
+}
+
+
+.list {
+    font-weight: 700;
+    font-family: 'Nunito',sans-serif;
+    color: #000;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+@media only screen and (min-width: 365px) and (max-width: 415px) {
+    .to-location {
+        margin-top: 0px !important;
+    }
+    ion-card-content {
+        .radio-section {
+            ion-radio-group {
+                ion-label {
+                    font-size: 14px !important;
+                }
+            }  
+        }
+    }
+}
+
+@media only screen and (min-width: 355px) and (max-width: 365px) {
+    ion-radio.second-radio.second-radio--second {
+        width: 7.8% !important;
+    }
+}
+

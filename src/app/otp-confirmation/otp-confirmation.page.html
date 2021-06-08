@@ -1,0 +1,37 @@
+<ion-buttons slot="start">
+  <ion-back-button defaultHref="/"></ion-back-button>
+</ion-buttons>
+
+<ion-content class="b1">
+
+  <ion-card class="card-css">
+    <ion-card-header>
+      <ion-img src="assets/nyclogo.png" class="img-nyclogo"></ion-img>
+    </ion-card-header>
+    <ion-card-content>
+
+
+      <div *ngIf="otpVerification">
+        <div class="input-border">
+          <ion-label position="stacked">Please Enter your OTP for <br>{{email}}</ion-label>
+          <ion-input placeholder="Enter-otp" [(ngModel)]="otp"></ion-input>
+        </div>
+
+        <ion-button type="submit" class="login-button" (click)="enterOtp()"> Submit</ion-button>
+      </div>
+
+      <div *ngIf="newPasssword">
+
+        <div class="input-border">
+          <ion-input type="password" placeholder="password" [(ngModel)]="newEnterPassword"></ion-input>
+        </div>
+        <div class="input-border">
+          <ion-input type="password" placeholder="Repeat Password" [(ngModel)]="re_enterPassword"></ion-input>
+        </div>
+
+        <ion-button type="submit" class="login-button" (click)="getnewPassword()">Submit</ion-button>
+
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page--title">My Projects</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let items of projects">
+    <ion-card-header style="padding: 15px 15px 0;">
+      <ion-card-title>{{items.ProjectName}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{items.ProjectDescription}}
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-subtitle>Payment Details</ion-card-subtitle>
+      <ion-card-title>{{items.CardNumber}}</ion-card-title>
+    </ion-card-header>
+
+  </ion-card>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page--title">My Passengers</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let items of passenger">
+    <ion-card-header style="padding: 15px 15px 0;">
+      <ion-card-title style="font-size: 16px;">
+        <ion-icon name="person"></ion-icon> {{items.Passenger_Prefix}} {{items.FirstName}} {{items.LastName}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-header style="padding: 15px 15px 0;">
+      <ion-card-title style="font-size: 16px;">
+        <ion-icon name="call"></ion-icon> {{items.Cellno}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-header style="padding: 15px 15px 0;">
+      <ion-card-title style="font-size: 16px;">
+        <ion-icon name="call"></ion-icon> {{items.TeleNo}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-header style="padding: 15px 15px 15px;">
+      <ion-card-title style="font-size: 16px;">
+        <ion-icon name="pin"></ion-icon> {{items.Address}}
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+</ion-content>

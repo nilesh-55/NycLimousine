@@ -1,0 +1,198 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page--title"> Fare Breakup </ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="close" class="close-icon" (click)="dismissModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: transparent;">
+
+
+  <ion-item lines="none" *ngIf="serviceName == 'One way' && vehicleStopRates == null">
+    <ion-label> Base Fare :</ion-label>
+    <ion-text> {{rate}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName == 'One way' && vehicleStopRates != null">
+    <ion-label> Fare({{locationstart}} to {{locationend}}) :</ion-label>
+    <ion-text> {{rate}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName == 'Wait and Return'">
+    <ion-label> Roundtrip Fare :</ion-label>
+    <ion-text> {{rate}} </ion-text>
+  </ion-item>
+
+  <ion-item *ngIf="serviceName == 'Hourly'">
+    <ion-label>Hourly Rate</ion-label>
+    <ion-text> {{hourlyRate}} </ion-text>
+  </ion-item>
+
+  <ng-container *ngFor = "let items of vehicleStopRates">
+  <ion-item>
+    <ion-label>{{items.stopSpanText}}</ion-label>
+    <ion-text> {{items.Hourly_Rate}} </ion-text>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{items.StopWaitingTimeSpan}}</ion-label>
+    <ion-text> {{items.StopWaitingTimeCost}} </ion-text>
+  </ion-item>
+</ng-container>
+
+ 
+
+  <div bg *ngIf="serviceName == 'Round Trip' && rate2 != null">
+    <ion-label>Origin Trip</ion-label>
+  </div>
+
+  <ion-item lines="none" *ngIf="serviceName == 'Round Trip'">
+    <ion-label> Fare :</ion-label>
+    <ion-text> {{rate}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="discount != null && serviceName != 'Hourly'">
+    <ion-label>{{discount}} :</ion-label>
+    <ion-text>-{{discountedValue}}</ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf = "hourlyCalculate && serviceName == 'Hourly' && discount != null">
+    <ion-label>{{discount}} :</ion-label>
+    <ion-text>-{{discountedValue}}</ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName == 'Hourly' && hourlyCalculate && discount != null">
+    <ion-label>Discounted Hourly Rate :</ion-label>
+    <ion-text>{{afterDiscount}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName != 'Hourly' && discount != null">
+    <ion-label >Discounted Fare :</ion-label>
+    <ion-text >{{afterDiscount}} </ion-text>
+    </ion-item>
+
+  <ion-item *ngIf="serviceName == 'Hourly'">
+    <ion-label>Number of Hours</ion-label>
+    <ion-select (ionChange)="getRates($event)" [(ngModel)]="minHours">
+      <ion-select-option *ngFor="let obj of hours" [value]=obj>{{obj.Text}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName == 'Hourly'">
+    <ion-label>SubTotal : </ion-label>
+    <ion-text> {{finalRate}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName == 'Wait and Return'">
+    <ion-label>Waiting Time : </ion-label>
+    <ion-text> {{waitingTime}} </ion-text>
+  </ion-item>
+
+  <ng-container *ngFor="let items of extraCharges">
+    <ion-item lines="none" *ngIf="items.ExtraChargeValue != 0">
+      <ion-label>{{items.ExtraChargeSpan}} :</ion-label>
+      <ion-text> {{items.ExtraChargeSpan_val}} </ion-text>
+    </ion-item>
+  </ng-container>
+
+  <ion-item lines="none" *ngIf="subtotal != null">
+    <ion-label>SubTotal : </ion-label>
+    <ion-text> {{subtotal}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName == 'Wait and Return'">
+    <ion-label>SubTotal : </ion-label>
+    <ion-text> {{finalRate}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="airport_parking != null">
+    <ion-label>Airport Parking : </ion-label>
+    <ion-text> {{airport_parking}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="tolls != null">
+    <ion-label>Tolls : </ion-label>
+    <ion-text> {{tolls}} </ion-text>
+  </ion-item>
+
+  <ng-container *ngFor="let items of amenities_fare">
+    <ion-item lines="none" *ngIf="items.selectAmenityQty != '0'">
+      <ion-label>{{items.selectAmenityQty}} {{items.AmenityName}} : </ion-label>
+      <ion-text> {{items.selectAmenityAmt}} </ion-text>
+    </ion-item>
+  </ng-container>
+
+  <ion-item lines="none" *ngIf="Sales_tax_Span != null && Sales_tax_Span != 0">
+    <ion-label>{{Sales_tax_value}} : </ion-label>
+    <ion-text> {{Sales_tax_Span}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="congestionCharge != null">
+    <ion-label>Congestion Surcharge : </ion-label>
+    <ion-text> {{congestionCharge}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label>Total (USD) : </ion-label>
+    <ion-text> ${{finalCalculation}} </ion-text>
+  </ion-item>
+
+  <p class="discount-note" *ngIf= "discount_description != null">*{{discount_description}}</p>
+  <!-- //for ROundtrip// -->
+  <div bg *ngIf="serviceName == 'Round Trip' && rate2 != null">
+    <ion-label>Return Trip</ion-label>
+  </div>
+  <ion-item lines="none" *ngIf="serviceName == 'Round Trip' && rate2 != null">
+    <ion-label> Fare :</ion-label>
+    <ion-text> {{rate2}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="serviceName == 'Round Trip' && discount2 != null">
+    <ion-label>{{discount2}} :</ion-label>
+    <ion-text>-{{discountedValue2}}</ion-text>
+  </ion-item>
+
+  <ng-container *ngFor="let items of extraCharges2">
+    <ion-item lines="none" *ngIf="items.ExtraChargeValue != 0">
+      <ion-label>{{items.ExtraChargeSpan}} :</ion-label>
+      <ion-text> {{items.ExtraChargeSpan_val}} </ion-text>
+    </ion-item>
+  </ng-container>
+
+  <ion-item lines="none" *ngIf="subtotal2 != null">
+    <ion-label>SubTotal : </ion-label>
+    <ion-text> {{subtotal2}} </ion-text>
+  </ion-item>
+
+  <ng-container *ngFor="let items of amenities_fare2">
+    <ion-item lines="none" *ngIf="items.selectAmenityQty != '0'">
+      <ion-label>{{items.selectAmenityQty}} {{items.AmenityName}} : </ion-label>
+      <ion-text> {{items.selectAmenityAmt}} </ion-text>
+    </ion-item>
+  </ng-container>
+
+  <ion-item lines="none" *ngIf="Sales_tax_Span2 != null">
+    <ion-label>{{Sales_tax_value2}} : </ion-label>
+    <ion-text> {{Sales_tax_Span2}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="congestionCharge !== null && finalCalculation2 !=null">
+    <ion-label>Congestion Surcharge : </ion-label>
+    <ion-text> {{congestionCharge}} </ion-text>
+  </ion-item>
+
+  <ion-item lines="none" *ngIf="finalCalculation2 !=null">
+    <ion-label>Total (USD) : </ion-label>
+    <ion-text> ${{finalCalculation2}} </ion-text>
+  </ion-item>
+
+  <p class="discount-note" *ngIf= "discount_descriptionReturn != null">*{{discount_descriptionReturn}}</p>
+</ion-content>
+
+<ion-footer *ngIf="serviceName == 'Round Trip' && rate2 != null">
+  <ion-item lines="none">
+    <ion-label>Grand Total (USD) : </ion-label>
+    <ion-text> ${{final_Price}} </ion-text>
+  </ion-item>
+</ion-footer>

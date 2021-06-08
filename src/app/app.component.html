@@ -1,0 +1,36 @@
+<ion-app>
+  <ion-split-pane>
+    <ion-menu type="overlay">
+      <ion-header style="--background: transparent;">
+        <ion-toolbar class="transparent-toolbar" style="--border-width: 0; border-bottom: none;--background: transparent;">
+          <ion-img src="assets/nyclogo.png"></ion-img>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink = "/home">Home </ion-item>
+          <ion-item routerLink = "/login" *ngIf= "isLoggedOut">Login </ion-item>
+          <ion-item routerLink = "/userprofile" *ngIf= "isLoggedin">Profile </ion-item>
+          <ion-item routerLink = "/mytrips" *ngIf= "isLoggedin">My Trips </ion-item>
+          <ion-item routerLink = "/my-projects" *ngIf= "isLoggedin">My Projects </ion-item>
+          <ion-item routerLink = "/my-passengers" *ngIf= "isLoggedin">My Passengers </ion-item>
+          <ion-item routerLink = "/my-payment" *ngIf= "isLoggedin">My Payments </ion-item>
+          <ion-item (click)="logOut()" *ngIf= "isLoggedin"> Log-out </ion-item>
+         </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+      <ion-footer>
+        <ion-row class="ion-text-center">
+          <ion-col size="6">
+            <ion-button fill="clear" (click)="privacyPage()">Privacy</ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button fill="clear" (click)="legalpage()">Legal</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-footer>
+    </ion-menu>
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

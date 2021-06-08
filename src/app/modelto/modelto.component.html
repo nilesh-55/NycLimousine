@@ -1,0 +1,42 @@
+<ion-header style="--background: transparent;">
+  <ion-toolbar class="transparent-toolbar" style="--border-width: 0; border-bottom: none;--background: transparent;padding-bottom: 0;">
+    <div>
+      <ion-item class="full-width" lines="none">
+        <ion-label style="padding: 0 0px 0 6px; margin-bottom: 0;" position="stacked">To</ion-label>
+        <ion-input placeholder="Enter Address or Airport" type="text" debounce="500" [(ngModel)]="formData0.row"
+          (ionChange)="getItem($event)">
+          <img src="assets/loader.gif" *ngIf="showLoaderImg" />
+        </ion-input>
+  
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/" (click)="dismissModal()"></ion-back-button>
+        </ion-buttons>
+  
+        <ion-buttons slot="end">
+          <ion-button style="cursor: pointer;font-size: 14px; color: #000;font-weight: 700;margin-top: 0.6rem;" (click)="ClearInput()">CLEAR</ion-button>
+        </ion-buttons>
+      </ion-item>
+      
+    </div>
+  </ion-toolbar>
+  
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="isItemAvailable1">
+    <ng-container *ngFor="let row of rows">
+    
+      <div class="form-section form-section--suggetion-list" *ngIf="row.Location_Type == 'A'" (click)="putvalue(row)">
+        {{ row.Location_Name }} 
+      </div>
+
+      <div class="form-section form-section--suggetion-list" *ngIf="row.Location_Type == 'B'" (click)="putvalue(row)">
+        {{ row.Location_Name }}  {{row.Location_Address}}
+      </div>
+
+      <div class="form-section form-section--suggetion-list" *ngIf="row.Location_Name == ''" (click)="putvalue(row)">
+        {{row.Location_Address}}
+      </div>
+
+    </ng-container>
+  </ion-list>
+</ion-content>

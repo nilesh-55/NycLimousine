@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page--title">Service Agreement</ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="close" class="close-icon" (click)="dismissModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<div class="legal-information" [innerHTML]="agreement"></div>
+</ion-content>

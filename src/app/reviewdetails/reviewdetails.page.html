@@ -1,0 +1,384 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/filldetails"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="page-title" *ngIf="serviceName == 'Round Trip'"><small>Review Details</small></ion-title>
+        <ion-title class="vehicle-title" *ngIf="serviceName != 'Round Trip'">
+            <b> {{locationstart}} </b>
+            <b> <small>to</small> {{locationend}}</b>
+        </ion-title>
+        <div class="tab-button" slot="end">
+            <ion-button *ngIf="serviceName == 'Round Trip'" class="nyc-button-inside" size="small"
+            (click)="ScrollToOrigin()">Origin Trip</ion-button>
+        <ion-button *ngIf="serviceName == 'Round Trip'" class="nyc-button-inside" size="small"
+            (click)="ScrollToReturn()">Return Trip</ion-button>
+        </div>
+       
+    </ion-toolbar>
+</ion-header>
+
+<ion-toolbar class="home-page" *ngIf="serviceName != 'Round Trip'">
+    <div class="calculator-card">
+        <ion-item class="date-time-row">
+            <ion-col size="6" class="padding-0">
+                <ion-item class="no__padding" lines="none">
+                    <ion-label position="stacked"> DATE </ion-label>
+                    <div>
+                        <span class="date">{{selectDate}}</span>
+                        <span class="month">{{selectMonthYear}}</span>
+                        <span class="month-year">{{selectDay}}</span>
+                    </div>
+                </ion-item>
+            </ion-col>
+
+
+            <ion-col size="6" class="padding-0">
+                <ion-item class="no__padding" lines="none">
+                    <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'A'"> FLIGHT
+                        ARRIVAL TIME </ion-label>
+                    <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'B'"> PICKUP
+                        TIME </ion-label>
+                    <div>
+                        <span class="date"> {{fulltime}}</span>
+                        <span class="month-year"> {{halftime}}</span>
+                    </div>
+                </ion-item>
+            </ion-col>
+        </ion-item>
+    </div>
+</ion-toolbar>
+<ion-toolbar *ngIf="serviceName != 'Round Trip'">
+    <ion-item lines="none">
+        <ion-text class="car_name">{{carName}}</ion-text>
+        <div class="capacity" slot="end" style="margin-top:5px">
+            <ion-col class="icons-row">
+                <ion-img src={{carInside}} class=""></ion-img>
+            </ion-col>
+        </div>
+    </ion-item>
+</ion-toolbar>
+
+<ion-content [scrollEvents]="true">
+    <div id="origintrip" bg *ngIf="serviceName == 'Round Trip'">
+        <ion-label>Step 1 of 2 - Origin Trip</ion-label>
+    </div>
+    <ion-toolbar class="date-time-row" *ngIf="serviceName == 'Round Trip'">
+        <ion-item lines="none">
+            <div class="roundtrip--from-to-location">
+                <b> {{locationstart}} </b>
+                <b> <small>to</small> {{locationend}}</b>
+            </div>
+        </ion-item>
+    </ion-toolbar>
+    <ion-toolbar class="home-page" *ngIf="serviceName == 'Round Trip'">
+        <div class="calculator-card">
+            <ion-item lines="none" class="date-time-row">
+                <ion-col size="6" class="padding-0">
+                    <ion-item class="no__padding" lines="none">
+                        <ion-label position="stacked"> DATE </ion-label>
+                        <div>
+                            <span class="date">{{selectDate}}</span>
+                            <span class="month">{{selectMonthYear}}</span>
+                            <span class="month-year">{{selectDay}}</span>
+                        </div>
+                    </ion-item>
+                </ion-col>
+
+                <ion-col size="6" class="padding-0">
+                    <ion-item class="no__padding" lines="none">
+                        <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'A'">
+                            FLIGHT ARRIVAL TIME </ion-label>
+                        <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'B'">
+                            PICKUP TIME </ion-label>
+                        <div>
+                            <span class="date"> {{fulltime}}</span>
+                            <span class="month-year"> {{halftime}}</span>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-item>
+        </div>
+    </ion-toolbar>
+    <ion-toolbar *ngIf="serviceName == 'Round Trip'">
+        <ion-item lines="none">
+            <ion-text class="car_name">{{carName}}</ion-text>
+            <div class="capacity" slot="end" style="margin-top:5px">
+                <ion-col class="icons-row">
+                    <ion-img src={{carInside}} class=""></ion-img>
+                </ion-col>
+            </div>
+        </ion-item>
+    </ion-toolbar>
+
+
+
+    <form [formGroup]="form1" (ngSubmit)="nextButton(form1.value)">
+        <ion-card>
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(1)" [ngClass]="{active: isGroupShown(1)}">
+                <ion-label>Pick UP Details</ion-label>
+                <ion-icon [name]="isGroupShown(1) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+
+            <ion-card-content *ngIf="isGroupShown(1)" nopadding>
+                <div class="form-section">
+                    <ion-label position="stacked">From</ion-label>
+                    <ion-text>{{locationstart}} </ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationType == 'A'">
+                    <ion-label position="stacked">Airline Name</ion-label>
+                    <ion-text>{{formvalues.AirlineName}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationType == 'A'">
+                    <ion-label position="stacked">Flight Number</ion-label>
+                    <ion-text>{{formvalues.FlightNo}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationType == 'A' && formvalues.start_Terminalno != ''">
+                    <ion-label position="stacked">Terminal</ion-label>
+                    <ion-text>{{formvalues.start_Terminalno}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationType == 'A'">
+                    <ion-label position="stacked">Origin Airport</ion-label>
+                    <ion-text>{{formvalues.FlightDepAirport}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationType == 'A'">
+                    <ion-label position="stacked">Type Of Flight</ion-label>
+                    <ion-text>{{formvalues.FlightType}}</ion-text>
+                </div>
+            </ion-card-content>
+            
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(2)" [ngClass]="{active: isGroupShown(2)}">
+                <ion-label>Drop Off Details</ion-label>
+                <ion-icon [name]="isGroupShown(2) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+            <ion-card-content nopadding *ngIf="isGroupShown(2)">
+                <div class="form-section">
+                    <ion-label position="stacked">To</ion-label>
+                    <ion-text>{{locationend}}</ion-text>
+                </div>
+            </ion-card-content>
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(3)" [ngClass]="{active: isGroupShown(3)}">
+                <ion-label>Passenger Details</ion-label>
+                <ion-icon [name]="isGroupShown(3) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+            <ion-card-content nopadding *ngIf="isGroupShown(3)">
+                <div class="form-section" *ngIf="formvalues.NoPassenger != '0'">
+                    <ion-label position="stacked">No. Of Passengers</ion-label>
+                    <ion-text slot="end">{{formvalues.NoPassenger}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="formvalues.NoSuitcase != '0'">
+                    <ion-label position="stacked">No. Of Suitcases</ion-label>
+                    <ion-text slot="end">{{formvalues.NoSuitcase}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="formvalues.specialIns != ''">
+                    <ion-label position="stacked">Special Instructions</ion-label>
+                    <ion-text>{{formvalues.specialIns}}</ion-text>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <!-- //------------------------Roundtrip------------------------------------------------------------>
+        <div id="returntrip" bg *ngIf="serviceName == 'Round Trip'">
+            <ion-label>Step 2 of 2 - Return Trip</ion-label>
+        </div>
+        <ion-toolbar class="date-time-row" *ngIf="serviceName == 'Round Trip'">
+            <ion-item lines="none">
+                <div class="roundtrip--from-to-location">
+                    <b> {{locationend}} </b>
+                    <b> <small>to</small> {{locationstart}}</b>
+                </div>
+            </ion-item>
+        </ion-toolbar>
+        <ion-toolbar class="home-page" *ngIf="serviceName == 'Round Trip'">
+            <div class="calculator-card">
+                <ion-item class="date-time-row" lines="none">
+                        <ion-col size="6" class="padding-0">
+                            <ion-item lines="none" class="no__padding">
+                                <ion-label position="stacked">RETURN DATE </ion-label>
+                                <div>
+                                    <span class="date">{{selectDate2}}</span>
+                                    <span class="month">{{selectMonthYear2}}</span>
+                                    <span class="month-year">{{selectDay2}}</span>
+                                </div>
+                            </ion-item>
+                        </ion-col>
+    
+                        <ion-col size="6" class="padding-0">
+                            <ion-item class="no__padding" lines="none">
+                                <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'A'"> FLIGHT ARRIVAL TIME </ion-label>
+                                <ion-label position="stacked" class="label label--arrival-time" *ngIf="locationType == 'B'"> RETURN PICKUP TIME </ion-label>
+                                <div>
+                                    <span class="date"> {{fulltime2}}</span>
+                                    <span class="month-year"> {{halftime2}}</span>
+
+                                </div>
+                            </ion-item>
+                        </ion-col>
+                </ion-item>
+            </div>
+        </ion-toolbar>
+        <ion-toolbar *ngIf="serviceName == 'Round Trip'">
+            <ion-item lines="none">
+                <ion-text class="car_name">{{carName2}}</ion-text>
+                <div class="capacity" slot="end" style="margin-top:5px">
+                    <ion-col class="icons-row">
+                        <ion-img src={{carInside2}} class=""></ion-img>
+                    </ion-col>
+                </div>
+            </ion-item>
+        </ion-toolbar>
+
+
+
+
+        <ion-card *ngIf="serviceName == 'Round Trip'">
+
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(6)" [ngClass]="{active: isGroupShown(6)}"
+                *ngIf="serviceName == 'Round Trip'">
+                <ion-label>Pick UP Details</ion-label>
+                <ion-icon [name]="isGroupShown(6) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+            <ion-card-content *ngIf="isGroupShown(6)" nopadding>
+                <div class="form-section">
+                    <ion-label position="stacked">From</ion-label>
+                    <ion-text>{{locationend}} </ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationTypeR == 'A'">
+                    <ion-label position="stacked">Airline Name</ion-label>
+                    <ion-text>{{formvalues2.AirlineNameReturn}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationTypeR == 'A'">
+                    <ion-label position="stacked">Flight Number</ion-label>
+                    <ion-text>{{formvalues2.FlightNoReturn}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationTypeR == 'A' && formvalues2.start_TerminalnoReturn != ''">
+                    <ion-label position="stacked">Terminal</ion-label>
+                    <ion-text>{{formvalues2.start_TerminalnoReturn}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationTypeR == 'A'">
+                    <ion-label position="stacked">Origin Airport</ion-label>
+                    <ion-text>{{formvalues2.FlightDepAirportReturn}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="locationTypeR == 'A'">
+                    <ion-label position="stacked">Type Of Flight</ion-label>
+                    <ion-text>{{formvalues2.FlightTypeReturn}}</ion-text>
+                </div>
+                
+            </ion-card-content>
+
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(7)" [ngClass]="{active: isGroupShown(7)}"
+                *ngIf="serviceName == 'Round Trip'">
+                <ion-label>Drop Off Details</ion-label>
+                <ion-icon [name]="isGroupShown(7) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+            <ion-card-content nopadding *ngIf="isGroupShown(7)">
+                <div class="form-section">
+                    <ion-label position="stacked">TO</ion-label>
+                    <ion-text>{{locationstart}}</ion-text>
+                </div>
+            </ion-card-content>
+
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(8)" [ngClass]="{active: isGroupShown(8)}"
+                *ngIf="serviceName == 'Round Trip'">
+                <ion-label>Passenger Details</ion-label>
+                <ion-icon [name]="isGroupShown(8) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+            <ion-card-content nopadding *ngIf="isGroupShown(8)">
+                <div class="form-section" *ngIf="formvalues2.NoPassengerReturn != '0'">
+                    <ion-label position="stacked">No. Of Passengers</ion-label>
+                    <ion-text slot="end">{{formvalues2.NoPassengerReturn}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="formvalues2.NoSuitcaseReturn != '0'">
+                    <ion-label position="stacked">No. Of Suitcases</ion-label>
+                    <ion-text slot="end">{{formvalues2.NoSuitcaseReturn}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="formvalues2.specialInsReturn != ''">
+                    <ion-label position="stacked">SPECIAL INSTRUCTIONS</ion-label>
+                    <ion-text>{{formvalues2.specialInsReturn}}</ion-text>
+                </div>
+            </ion-card-content>
+        </ion-card>
+
+        <div bg *ngIf="serviceName == 'Round Trip'"></div>
+
+        <ion-card>
+            <!-- //------------------------Roundtrip-------------------------------------------------------->
+
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(4)" [ngClass]="{active: isGroupShown(4)}">
+                <ion-label>Contact Details</ion-label>
+                <ion-icon [name]="isGroupShown(4) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+            <ion-card-content nopadding *ngIf="isGroupShown(4)">
+                <div class="form-section">
+                    <ion-label position="stacked">Email</ion-label>
+                    <ion-text>{{formvalues.BEmail}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">First Name</ion-label>
+                    <ion-text>{{formvalues.BFirstName}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">CellPhone Number</ion-label>
+                    <ion-text>{{formvalues.BMobileNo}}</ion-text>
+                </div>
+                <div class="form-section" *ngIf="formvalues.BTelePhoneNo != ''">
+                    <ion-label position="stacked">TelePhone Number</ion-label>
+                    <ion-text>{{formvalues.BTelePhoneNo}}</ion-text>
+                </div>
+            </ion-card-content>
+            <ion-card-header class="ion-card-headers--accordian" (click)="toggleGroup(5)" [ngClass]="{active: isGroupShown(5)}">
+                <ion-label>Payment Details</ion-label>
+                <ion-icon [name]="isGroupShown(5) ? 'ios-arrow-up' : 'ios-arrow-down'"></ion-icon>
+            </ion-card-header>
+            <ion-card-content nopadding *ngIf="isGroupShown(5)">
+                <div class="form-section">
+                    <ion-label position="stacked">Credit Card Type</ion-label>
+                    <ion-text>{{formvalues.CreditCardType}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">Credit Card No.</ion-label>
+                    <ion-text>{{formvalues.CreditCardNo}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">Exp Month</ion-label>
+                    <ion-text>{{formvalues.CreditCardExpMonth}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">Exp Year</ion-label>
+                    <ion-text>{{formvalues.CreditCardExpYear}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">Cvv</ion-label>
+                    <ion-text>{{formvalues.CreditCardCVV}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">CardHolder's Name</ion-label>
+                    <ion-text>{{formvalues.CreditCardFirstLastName}}</ion-text>
+                </div>
+                <div class="form-section">
+                    <ion-label position="stacked">Address</ion-label>
+                    <ion-text>{{formvalues.Address1}}</ion-text>
+                </div>
+            </ion-card-content>
+        </ion-card>
+        <ion-item lines="none" class="accept-agree" (click)="serviceAgreementModal()">
+            <ion-checkbox shape="square" color="warning" formControlName="Checked"></ion-checkbox>
+            <ion-label> &nbsp;ACCEPT <span (click)="serviceAgreementModal()"> SERVICE AGREEMENT </span></ion-label>
+        </ion-item>
+    </form>
+</ion-content>
+
+<ion-footer>
+    <ion-item lines="none">
+        <ion-label *ngIf="final_Price !== null && serviceName !== 'Round Trip'">$ {{final_Price}} <ion-icon
+                name="information-circle-outline" (click)="presentModal()"></ion-icon>
+        </ion-label>
+        <ion-label *ngIf="serviceName == 'Round Trip' && total != null">$ {{total}} <ion-icon
+                name="information-circle-outline" (click)="presentModal()"></ion-icon>
+                <small>Grand Total</small>
+        </ion-label>
+        <ion-button class="main-button main-button--next-page" slot="end" [disabled]="!form1.valid" routerDirection="forward"
+            (click)="nextButton()"> <span> Place Order
+            </span>
+        </ion-button>
+    </ion-item>
+</ion-footer>

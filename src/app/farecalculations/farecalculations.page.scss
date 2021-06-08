@@ -1,0 +1,21 @@
+ion-content {
+    ion-item {
+        border-bottom: 1px solid #ddd;
+        ion-label , ion-text {
+            color: #000;
+            font-weight: 800;
+            font-size: 14.5px;
+        }
+    }
+}
+ion-footer {
+    ion-text {
+      color: #fff;
+    }
+}
+.discount-note{
+    text-align: center;
+    color: #000;
+    font-weight: 600;
+    padding: 8px 16px;
+}

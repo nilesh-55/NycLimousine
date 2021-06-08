@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page--title"> Fare Breakup </ion-title>
+      <ion-buttons slot="start">
+          <ion-icon name="close" class="close-icon" (click)="dismissModal()"></ion-icon>
+        </ion-buttons>
+     </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item lines="none" *ngIf="serviceName == 'Round Trip' && rate2 != null">
+        <ion-label> Fare :</ion-label>
+        <ion-text> {{rate2}} </ion-text>
+      </ion-item>
+
+      <ion-item lines="none" *ngIf="discount != null">
+        <ion-label>{{discount}} :</ion-label>
+        <ion-text>-{{discountedValue}}</ion-text>
+      </ion-item>
+    
+      <ion-item lines="none" *ngIf="discount != null">
+        <ion-label>Discounted Fare :</ion-label>
+        <ion-text>{{afterDiscount}} </ion-text>
+      </ion-item>
+    
+      <ng-container *ngFor="let items of extraCharges2">
+        <ion-item lines="none" *ngIf="items.ExtraChargeValue != 0">
+          <ion-label>{{items.ExtraChargeSpan}} :</ion-label>
+          <ion-text> {{items.ExtraChargeSpan_val}} </ion-text>
+        </ion-item>
+      </ng-container>
+    
+      <ion-item lines="none" *ngIf="subtotal2 != null">
+        <ion-label>SubTotal : </ion-label>
+        <ion-text> {{subtotal2}} </ion-text>
+      </ion-item>
+    
+      <ion-item lines="none" *ngIf="airport_parking != null">
+        <ion-label>Airport Parking : </ion-label>
+        <ion-text> {{airport_parking}} </ion-text>
+      </ion-item>
+    
+      <ion-item lines="none" *ngIf="tolls != null">
+        <ion-label>Tolls : </ion-label>
+        <ion-text> {{tolls}} </ion-text>
+      </ion-item>
+      
+      <ng-container *ngFor="let items of amenities_fare2">
+        <ion-item lines="none" *ngIf="items.selectAmenityQty != '0'">
+          <ion-label>{{items.selectAmenityQty}} {{items.AmenityName}} : </ion-label>
+          <ion-text> {{items.selectAmenityAmt}} </ion-text>
+        </ion-item>
+      </ng-container>
+    
+      <ion-item lines="none" *ngIf="Sales_tax_Span2 != null">
+        <ion-label>{{Sales_tax_value2}} : </ion-label>
+        <ion-text> {{Sales_tax_Span2}} </ion-text>
+      </ion-item>
+    
+      <ion-item lines="none" *ngIf="congestionCharge !== null && finalCalculation2 !=null">
+        <ion-label>Congestion Surcharge : </ion-label>
+        <ion-text> {{congestionCharge}} </ion-text>
+      </ion-item>
+    
+      <ion-item lines="none" *ngIf="finalCalculation2 !=null">
+        <ion-label>Total (USD) : </ion-label>
+        <ion-text> ${{finalCalculation2}} </ion-text>
+      </ion-item>
+    
+      <p class="discount-rate" *ngIf ="discount_description != null">*{{discount_description}}</p>
+</ion-content>

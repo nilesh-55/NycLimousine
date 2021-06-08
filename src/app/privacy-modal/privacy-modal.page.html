@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page--title">Privacy Policy</ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="close" class="close-icon" (click)="dismissModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <div class="privacy" [innerHTML]="privacyStatement"></div>
+</ion-content>

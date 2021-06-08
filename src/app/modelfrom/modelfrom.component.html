@@ -1,0 +1,43 @@
+<ion-header style="--background: transparent;">
+  <ion-toolbar class="transparent-toolbar" style="--border-width: 0; border-bottom: none;--background: transparent;padding-bottom: 0;">
+    <div>
+      <ion-item class="full-width" lines="none">
+        <ion-label style="padding: 0 0px 0 6px; margin-bottom: 0;" position="stacked">From</ion-label>
+        <ion-input placeholder="Enter Address or Airport" type="text" debounce="500" [(ngModel)]="formData0.row"
+          (ionChange)="getItems($event)">
+          <img src="assets/loader.gif" *ngIf="showLoaderImg" />
+        </ion-input>
+  
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/" (click)="dismissModal()"></ion-back-button>
+        </ion-buttons>
+  
+        <ion-buttons slot="end">
+          <ion-button style="cursor: pointer;font-size: 14px; color: #000;font-weight: 700;margin-top: 0.6rem;"
+            (click)="ClearInput()">CLEAR</ion-button>
+        </ion-buttons>
+  
+      </ion-item>
+    </div>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="isItemAvailable">
+    <ng-container *ngFor="let item of items">
+
+      <div class="form-section form-section--suggetion-list" *ngIf="item.Location_Type == 'A'" (click)="putvalue(item)">
+        {{ item.Location_Name }}
+      </div>
+
+      <div class="form-section form-section--suggetion-list" *ngIf="item.Location_Type == 'B'" (click)="putvalue(item)">
+        {{ item.Location_Name }} {{item.Location_Address}}
+      </div>
+
+      <ion-item *ngIf="item.Location_Name == ''" (click)="putvalue(item)">
+        {{item.Location_Address}}
+      </ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>

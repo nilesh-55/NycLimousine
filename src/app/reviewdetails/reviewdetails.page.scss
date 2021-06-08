@@ -1,0 +1,23 @@
+.accept-agree {
+	ion-checkbox {
+		--border-radius: 5px;
+		width: 20px;
+		height: 20px;
+	}
+	ion-label {
+		font-weight: 600;
+		font-size: medium;
+		color: #000;
+		span {
+			color: #fdc600;
+		}
+	}
+}
+
+.icons-row {
+	display: flex;
+	font-size: 20px;
+	padding: 5px 0px;
+}
+
+

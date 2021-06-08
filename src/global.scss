@@ -1,0 +1,642 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+
+/* Core CSS required for Ionic components to work properly */
+
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+body {
+	font-family: 'Nunito', sans-serif !important;
+}
+
+.vehicle-title {
+	padding: 0;
+	b,
+	small {
+		display: flex;
+		font-size: 14px;
+	}
+}
+
+ion-buttons {
+	ion-back-button , ion-menu-button {
+		color: #000 !important;
+		opacity: .8;
+	}
+	.close-icon {
+		font-size: 2rem;
+	}
+}
+.vehicles-card {
+	font-size: 12px;
+	margin: 5px !important;
+	border-radius: 12px;
+	ion-card-header {
+		.car--image {
+			background-repeat: no-repeat;
+			height: 75px;
+			margin-top: 10px;
+            background-size: contain;
+			span {
+				background-image: url('./assets/icon/discount-bg.png');
+width: 40px;
+height: 28px;
+display: block;
+color: #fff;
+text-align: right;
+background-size: 100% 100%;
+position: absolute;
+right: 7px;
+font-size: 9px;
+top: 7px;
+padding: 2px 0px;
+			}
+		}
+		.car--name {
+			height: 55px;
+			ion-label {
+				font-size: 16px;
+				--color: #888 !important;
+			}
+		}
+	}
+}
+
+.icons-row {
+	display: flex;
+	font-size: 20px;
+	padding: 5px 0px;
+}
+
+.icon-section {
+	padding: 5px 0px 8px 1px;
+}
+
+.home-page {
+	.calculator-card {
+		form {
+			.full-width {
+				width: 100% !important;
+				border-bottom: 1px solid #c5bfbf;
+				ion-label {
+					padding-top: 5px;
+					position: absolute !important;
+					left: 25px !important;
+					font-size: 12px;
+				}
+			}
+        }
+        
+		.date-time-row,
+		.return-date-time-row,
+		.type-of-service-row {
+			width: 100%;
+			border-bottom: 1px solid #ddd;
+			.no__padding {
+				--padding-start: 3px;
+				ion-label {
+					margin-bottom: 5px;
+					min-width: 180px;
+				}
+				.pickup-time-label {
+					min-width: 175px;
+				}
+				div {
+					.date {
+						font-size: 30px;
+						position: relative;
+						font-weight: 800;
+						margin-right: 4px;
+					}
+					.month {
+						bottom: 20px;
+						position: absolute;
+						font-size: 12px;
+						font-weight: 700;
+					}
+					.month-year {
+						font-size: 11px;
+						font-weight: 500;
+						color: #676565;
+					}
+				}
+				ion-icon {
+					position: absolute;
+					bottom: 10px;
+					background: #fdc600;
+					font-size: 12px;
+					border-radius: 50px;
+					color: #fff;
+					right: 0px;
+				}
+			}
+		}
+	}
+}
+
+
+span.button-text.sc-ion-back-button-ios {
+	display: none !important;
+}
+
+.nopadding,
+[nopadding] {
+	padding: 0 !important;
+}
+
+div[bg] {
+	background: linear-gradient(to top, #f7b104 0, #ffcb00 100%) !important;
+	padding: 8px 16px;
+	ion-label {
+		font-weight: 700;
+		color: #000;
+	}
+}
+
+.main-button {
+	--background: linear-gradient(to top, #f7b104 0, #ffcb00 100%) !important;
+	color: #000;
+	height: 45px;
+	margin: 15px;
+	--background-focused: linear-gradient(to top, #f7b104 0, #ffcb00 100%) !important;
+	--background-hover: linear-gradient(to top, #f7b104 0, #ffcb00 100%) !important;
+	width: 100%;
+	font-weight: 900;
+	&--:hover {
+		--background: linear-gradient(to top, #f7b104 0, #ffcb00 100%) !important;
+	}
+	&--:focus {
+		--background: linear-gradient(to top, #f7b104 0, #ffcb00 100%) !important;
+    }
+    &--next-page {
+        width: auto !important;
+        margin: 10px !important;
+    }
+}
+
+h2#alert-1-hdr {
+	text-align: center;
+	font-weight: 700;
+	font-family: 'Nunito', sans-serif;
+}
+
+input#alert-input-1-0 {
+	font-family: 'Nunito', sans-serif;
+	letter-spacing: 0.5px;
+}
+
+ion-header {
+	ion-toolbar {
+		padding: 6px 0;
+		line-height: 1.3;
+		border-bottom: 1px solid #ddd;
+	}
+}
+
+ion-label {
+	--color: #888 !important;
+}
+
+ion-footer {
+	background: #4a4a4a;
+	ion-item {
+		--background: transparent;
+		ion-label {
+			font-weight: 700;
+			color: #fff !important;
+			ion-icon {
+				position: relative;
+				top: 2px;
+			}
+			small {
+				color: #fdc600;
+				display: block;
+			}
+		}
+		ion-button {
+			--border-radius: 30px;
+		}
+	}
+}
+
+ion-text {
+	color: #000;
+	font-weight: bold;
+}
+
+ion-content {
+	--background: #f2f2f2;
+}
+
+ion-card {
+	background: #fff !important;
+	ion-card-header {
+		color: #000 !important;
+		margin: 0;
+		padding: 5px 15px 15px 15px;
+	}
+}
+
+
+/*--NYC DATE & TIME--*/
+
+.nyc-date-view {
+	position: relative;
+	width: 100%;
+	span.date {
+		font-weight: bold;
+		font-size: 32px;
+	}
+	span.month {
+		position: absolute;
+		left: 44px;
+		top: 10px;
+		font-weight: bold;
+		font-size: 9px;
+	}
+	span.day {
+		position: absolute;
+		left: 44px;
+		top: 21px;
+		color: #aaa;
+		font-size: 8px;
+	}
+}
+
+.nyc-time-view {
+	position: relative;
+	width: 100%;
+	span.hours {
+		font-weight: bold;
+		font-size: 30px;
+	}
+	span.ampm {
+		position: absolute;
+		left: 97px;
+		top: 21px;
+		color: #aaa;
+		font-size: 9px;
+	}
+}
+
+
+/*--for vehicle & its Capacity--*/
+
+div.vehicle-amount {
+	font-size: 1.2rem;
+	color: #daa520;
+	font-weight: 700;
+}
+
+div.capacity {
+	line-height: 1;
+	font-size: 1.4rem;
+	margin-top: 15px;
+	div.passenger-capacity,
+	div.big-briefcase-capacity,
+	div.small-briefcase-capacity {
+		display: inline-block;
+		width: 40px;
+		text-align: right;
+		position: relative;
+		margin-right: 5px;
+		ion-icon {
+			position: absolute;
+			position: absolute;
+			left: 0;
+		}
+	}
+	ion-icon.passenger {
+		font-size: 2.2rem;
+		top: -14px;
+	}
+	ion-icon.big-briefcase {
+		font-size: 1.6rem;
+		top: -5px;
+	}
+	ion-icon.small-briefcase {
+		font-size: 1.3rem;
+		top: 0px;
+	}
+}
+
+input.searchbar-input.sc-ion-searchbar-md {
+	margin: 0;
+	padding: 5px 0 0 25px;
+	box-shadow: none;
+	font-size: 13px;
+}
+
+.searchbar-clear-button.sc-ion-searchbar-md {
+	position: absolute;
+	right: 0px !important;
+}
+
+.searchbar-search-icon.sc-ion-searchbar-md {
+	left: 0;
+	top: 10px;
+	width: 21px;
+	height: 21px;
+}
+
+.custom-loader {
+	-webkit-animation: scale-down-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) infinite alternate both;
+	animation: scale-down-center 0.6s cubic-bezier(0.175, 0.885, 0.320, 1.275) infinite alternate both;
+}
+
+.loading-content ion-img {
+	width: 40px !important;
+	margin: 0 auto;
+}
+
+.loading-content span {
+	text-align: center;
+	display: block;
+	margin-top: 1rem;
+}
+
+@media only screen and (min-width: 365px) and (max-width: 415px) {
+	ion-header {
+		ion-toolbar {
+			.vehicle-title {
+				margin: 0;
+				padding: 5px 0 0 45px !important;
+			}
+		}
+	}
+}
+
+.padding-0 {
+    padding: 0;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 350px) {
+					.date-time-row,
+					.return-date-time-row,
+					.type-of-service-row {
+						.no__padding {
+							.label {
+								font-size: 12px;
+								&--arrival-time {
+									min-width: 160px;
+									font-size: 12px;
+								}
+							}
+							div {
+								.date {
+									font-size: 27px !important;
+								}
+								.month {
+									bottom: 16px !important;
+								}
+								.month-year {
+									font-size: 10px !important;
+								}
+							}
+						}
+					}
+					ion-header {
+						ion-toolbar {
+							.vehicle-title {
+								padding: 15px 0px 10px 30px !important;
+							}
+						}
+					}
+	}
+
+ion-header {
+	ion-toolbar {
+		.vehicle-title {
+			padding: 10px 0 0 0;
+			margin: 0;
+			b {
+				font-size: 12px !important;
+				small {
+					color: #000;
+					margin-right: 2px;
+					position: relative;
+					top: -2.5px;
+					font-weight: 600;
+				}
+			}
+		}
+	}
+}
+
+
+/*------------ Review-details-page && Field-details-page Scss --------------*/
+.tab-button {
+    .nyc-button-inside {
+        --background: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+        color: #000;
+        --background-focused: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+        --background-hover: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+        border-radius: 60px !important;
+        overflow: hidden;
+		font-weight: 700;
+		width: 46%;
+		
+    }
+}
+.page-title {
+    small {
+        position: absolute;
+        left: 25px;
+        top: 13px;
+        font-size: 15px;
+        font-weight: 900;
+    }
+}
+.date-time-row {
+    .roundtrip--from-to-location {
+        b , small {
+            display: -webkit-box;
+            display: flex;
+            color: #000;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+    }
+}
+
+.form-section {
+    border-bottom: 1.5px solid #ddd;
+    width: 100%;
+    padding: 10px 15px;
+    padding-bottom: 0;
+    ion-text {
+		padding: 5px 0;
+		display: block;
+		font-size: 13px;
+	}
+    ion-input {
+        --padding-top: 4px;
+        --padding-bottom: 3px;
+        font-size: 14px;
+        color: #000;
+        font-weight: 700;
+    }
+    ion-datetime {
+        font-weight: bold;
+        color: #000;
+        padding: 5px 0px 5px 2px;
+    }
+        
+    ion-select {
+		padding: 5px;
+		color: #000;
+		font-weight: 800;
+    }
+    &--type_of_flight {
+        padding-bottom: 5px;
+	}
+	&--suggetion-list {
+		font-weight: 700;
+		font-size: 11px;
+		padding-bottom: 10px;
+		padding-left: 30px;
+	}
+}
+
+ion-card {
+	margin: 10px !important;
+	.ion-card-headers {
+		padding: 10px 0px 0px 15px !important;
+		&--accordian {
+			border-top: 0.5px solid #ddd;
+			padding: 15px !important;
+			border-bottom: 0.5px solid #ddd;
+			ion-icon {
+				font-size: 20px;
+				color: #000;
+				position: absolute;
+				right: 20px;
+			}
+			ion-label {
+				font-size: 16px;
+				color: #000;
+				font-weight: 700;
+			}
+		}
+		ion-label {
+			font-size: 16px;
+			font-weight: 700;
+		}
+	}
+}
+
+ion-header {
+	ion-toolbar {
+		.page--title {
+			font-size: 18px;
+			font-family: 'Nunito',sans-serif;
+			font-weight: 800;
+			color: #000;
+			letter-spacing: 0.3px;
+		}
+	}
+}
+
+ion-button , ion-label , ion-text , ion-input , ion-select , div , .alert-radio-label , ion-datetime , p , b , small  , .date , span , .month , .month-year , div.vehicle-amount {
+	font-family: 'Nunito',sans-serif !important;
+	letter-spacing: 0.3px;
+}
+
+@media only screen and (min-width: 700px) and (max-width: 770px) {
+	ion-header {
+		ion-toolbar {
+			.vehicle-title {
+				padding: 10px 0 0 40px;
+				margin: 0;
+			}
+		}
+	}
+}
+
+
+ion-searchbar {
+	--background: #fff !important;
+    margin-top: 15px !important;
+    -webkit-box-align: center;
+    align-items: center !important;
+    height: 42px !important;
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+.searchbar-input.sc-ion-searchbar-ios {
+    font-size: 13px !important;
+}
+.searchbar-search-icon.sc-ion-searchbar-ios ,.searchbar-search-icon.sc-ion-searchbar-md {
+	display: none;
+}
+.searchbar-left-aligned.sc-ion-searchbar-ios-h .searchbar-input.sc-ion-searchbar-ios {
+    padding-left: unset;
+    -webkit-padding-start: 15px;
+    padding-inline-start: 15px;
+    padding-inline-end: 0;
+}
+
+@media only screen and (min-width: 360px) and (max-width: 370px) {
+    .page-title {
+        small {
+            position: absolute;
+            left: -10px;
+            top: -7px;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0;
+        }
+    }
+}
+// @media only screen and (min-width: 320px) and (max-width: 355px) {
+// 	.tab-button {
+//         .nyc-button-inside {
+//             --background: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+//             color: #000;
+//             --background-focused: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+//             --background-hover: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+//             border-radius: 60px !important;
+//             overflow: hidden;
+//             font-weight: 700;
+//             width: 43%;
+//         }
+//     }
+// }
+// @media only screen and (min-width: 320px) and (max-width: 768px) {
+// 	.tab-button {
+//         .nyc-button-inside {
+//             --background: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+//             color: #000;
+//             --background-focused: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+//             --background-hover: linear-gradient(to top,#f7b104 0,#ffcb00 100%) !important;
+//             border-radius: 60px !important;
+//             overflow: hidden;
+//             font-weight: 700;
+//             margin-right: 7px;
+//             width: 43%;
+//         }
+//     }
+// }

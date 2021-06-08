@@ -1,0 +1,146 @@
+
+
+ion-buttons {
+    ion-back-button {
+        color: #fff;
+        opacity: .7;
+    }
+}
+ion-card {
+    ion-card-header {
+        margin: 0;
+        padding: 0 !important;
+    }
+}
+ion-card-content {
+    ion-item {
+        ion-label {
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding-bottom: 5px;
+        }
+    }
+    .forget-password {
+        float: right;
+        padding-top: 0.65rem;
+    }
+}
+
+ion-content.b1 {
+    position: absolute;
+    --background: linear-gradient(to bottom, #00000080, #04040424, #000000a6, #000), 
+    url('../../assets/login-background.png') no-repeat center center / cover;
+}
+     .img-nyclogo{
+        width: 100px;
+        margin: auto;
+        margin-top: 10px;
+     }
+     .card-css{
+        // margin-top: 5.5rem !important;
+        border-radius: 0px;
+        box-shadow: 0 0px 1px rgba(0,0,0,.12);
+        ion-card-content {
+            padding-bottom: 5px;
+            .input-border {
+                border-bottom: 1px solid #ddd;
+                ion-input {
+                    font-size: 13px;
+                    color: #000;
+                    letter-spacing: 0.5px;
+                    position: inherit;
+                    --padding-bottom: 5px;
+                    --padding-top: 10px;
+                    --padding-start: 0px;
+                    font-weight: 700;
+                    font-family: 'Nunito',sans-serif;
+                }
+                ion-label {
+                    position: relative;
+                    top: 0.5rem;
+                    font-family: 'Nunito',sans-serif;
+                    letter-spacing: 0.5px;
+                }
+            }
+            .login-button  {
+                --background: var(--ion-color-primary);
+                --background: #fdc600;
+                color: black;
+                text-transform: capitalize;
+                width: 100%;
+                margin-top: 13px;
+                --border-radius: 0px;
+                font-size: 20px;
+                height: 40px;
+                font-weight: 600;
+                font-family: 'Nunito',sans-serif;
+                letter-spacing: 0.5px;
+            }
+            .or-border {
+                border-bottom: 1px solid #ddd;
+                margin: 0;
+                padding: 0;
+                 span {
+                    display: block;
+                    margin: 0 auto;
+                    text-align: center;
+                    background: #fff;
+                    border-radius: 50px;
+                    border: 1px solid #ddd;
+                    font-size: 13px;
+                    padding: 4px 3px;
+                    width: fit-content;
+                    position: relative;
+                    top: 1rem;
+                    outline: none;
+                 }
+             }
+             .google-button {
+                    --background: #ffffff;
+                    color: #888;
+                    font-weight: 700;
+                    margin-top: 1.4rem;
+                    box-shadow: 0px 2px 5px #00000026;
+                    width: 100%;
+                    font-size: 19px;
+                    ion-img {
+                        width: 35px;
+                        margin-right: 10px;
+                    }
+             }
+             .error {
+                font-size: 12px;
+                color: red;
+                padding: 5px 0px;
+            }
+        }
+     }
+     h5 {
+        font-family: 'Nunito',sans-serif;
+        margin-top: 0;
+        font-size: 15px;
+        color: #fff;
+        text-align: center;
+        letter-spacing: 0.5px;    
+     }
+     h4 {
+        color: #fdc600;
+        text-align: center;
+        font-family: 'Nunito',sans-serif;
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.5px;
+        outline: none;
+     }
+    .passwordIcon{
+        font-size: 20px;
+        margin-right: 15px;
+        margin-top: -1.5rem;
+        display: block;
+        position: absolute;
+        right: 0;
+}
+.header-md:after {
+    background-image: none !important;
+}

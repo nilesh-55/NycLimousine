@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page--title">Write to Us</ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="close" class="close-icon" (click)="dismissModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-text-center ion-padding">
+    <ion-text class="ion-padding">
+      We value our customers and believe you deserve the best service and our full attention. If you are having trouble
+      finding answers to your questions or need more information, customer service representatives are available to
+      help.
+    </ion-text>
+  </div>
+  <form [formGroup]="form" class="login-form" (ngSubmit)="feedback(form.value)">
+
+    <ion-row>
+
+      <div class="input-border">
+        <ion-label position="stacked">Name <span style="color:red">*</span></ion-label>
+        <ion-input type="text" formControlName="Name"></ion-input>
+      </div>
+
+
+      <div class="input-border">
+        <ion-label position="stacked">Email <span style="color:red">*</span></ion-label>
+        <ion-input formControlName="email"></ion-input>
+      </div>
+
+      <div class="input-border">
+        <ion-label position="stacked">Contact No. (Optional)</ion-label>
+        <ion-input type="tel" formControlName="phone"></ion-input>
+      </div>
+
+      <div class="input-border">
+        <ion-label position="stacked">Confirmation No. (Optional)</ion-label>
+        <ion-input type="tel"></ion-input>
+        </div>
+
+        <div class="input-border">
+          <ion-label position="stacked">Subject</ion-label>
+          <ion-select>
+            <ion-select-option value="1">Rate Inquiry</ion-select-option>
+            <ion-select-option value="2">Billing Inquiry</ion-select-option>
+            <ion-select-option value="3">Edit Reservation</ion-select-option>
+            <ion-select-option value="4">Cancel Reservation</ion-select-option>
+            <ion-select-option value="4">Customer Service</ion-select-option>
+
+          </ion-select>
+        </div>
+
+        <div class="input-border">
+          <ion-label position="stacked">Message <span style="color:red">*</span></ion-label>
+          <ion-textarea type="password" formControlName="Message"></ion-textarea>
+        </div>
+
+        <ion-button class="main-button" type="submit">Send</ion-button>
+    </ion-row>
+  </form>
+
+</ion-content>

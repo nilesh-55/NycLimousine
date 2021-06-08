@@ -1,0 +1,185 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button style="color: #000;" defaultHref="/home" (click)="homepage()"></ion-back-button>
+    </ion-buttons>
+    <ion-label text-center><b>Thank You!</b></ion-label>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-text>
+            Thank you for booking your reservation with NYC Limousine.We are deligted to have you as a customer.Please
+            check the information below,if
+            you find errors or discrepancies please contact our office immediately.Our customer service agents are
+            available 24 hours a day 7 days a week.
+          </ion-text>
+        </ion-col>
+        <ion-row class="button">
+          <ion-col size="6">
+            <ion-button shape="round" class="round" (click)="toCall()"><span>CALL US</span></ion-button>
+          </ion-col>
+          <ion-col size="6">
+            <ion-button shape="round" class="round" (click)="writeTous()"><span>WRITE TO US</span></ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card style="margin: 0px;margin-top: 3px;">
+    <ion-card-content style="padding: 0px;">
+      <div bg *ngIf="serviceName == 'Round Trip'">
+        <ion-label>Origin Trip</ion-label>
+      </div>
+      <ion-row class="confirmation-section">
+        <ion-col size="6">
+          <span> Confirmation No. </span>
+        </ion-col>
+        <ion-col size="6" slot="end">
+          <span class="span span--number"> {{confirmatioNo}} </span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="image">
+        <ion-img src={{vehicleImage}}></ion-img>
+
+        <ion-text>{{vehicleName}}</ion-text>
+      </ion-row>
+
+      <div class="form-section">
+        <h6>Passenger</h6>
+        <ion-text>{{passegerName}}</ion-text>
+      </div>
+      <div class="form-section">
+        <h6>From</h6>
+        <ion-text>{{locationstart}} - {{locationFrom}}</ion-text>
+      </div>
+      <div class="form-section">
+        <h6>To</h6>
+        <ion-text>{{locationend}} - {{locationTo}}</ion-text>
+      </div>
+
+      <ion-toolbar class="home-page">
+        <div class="calculator-card">
+          <ion-item class="date-time-row" lines="none"
+            style="--padding-start: 0; margin-left: 8px;border-bottom: none;">
+            <ion-col size="6" class="padding-0">
+              <ion-item class="no__padding" lines="none">
+                <ion-label position="stacked">PICK UP DATE</ion-label>
+                <div>
+                  <span class="date">{{selectDate}}</span>
+                  <span class="month">{{selectMonthYear}}</span>
+                  <span class="month-year">{{selectDay}}</span>
+
+                </div>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6" class="padding-0">
+              <ion-item class="no__padding" lines="none">
+                <ion-label position="stacked" class="label label--arrival-time">
+                  PICK UP TIME </ion-label>
+                <div>
+                  <span class="date"> {{fulltime}}</span>
+                  <span class="month-year"> {{halftime}}</span>
+                </div>
+              </ion-item>
+            </ion-col>
+          </ion-item>
+        </div>
+      </ion-toolbar>
+
+      <!-- //-----------------------Roundtrip----------------------------// -->
+      <div bg *ngIf="serviceName == 'Round Trip'">
+        <ion-label>Return Trip</ion-label>
+      </div>
+      <ion-row class="confirmation-section" *ngIf="serviceName == 'Round Trip'">
+        <ion-col size="6">
+          <span> Confirmation No. </span>
+        </ion-col>
+        <ion-col size="6" slot="end">
+          <span class="span span--number"> </span>
+        </ion-col>
+      </ion-row>
+      <ion-row class="image" *ngIf="serviceName == 'Round Trip'">
+        <ion-img src={{vehicleImage2}}></ion-img>
+        <ion-text>{{vehicleName2}}</ion-text>
+      </ion-row>
+      <ion-row *ngIf="serviceName == 'Round Trip'">
+        <div class="form-section">
+          <h6>From</h6>
+          <ion-text>{{ locationend}} - {{locationTo}}</ion-text>
+        </div>
+        <div class="form-section">
+          <h6>To</h6>
+          <ion-text>{{locationstart}} - {{locationFrom}}</ion-text>
+        </div>
+
+        <ion-toolbar class="home-page">
+          <div class="calculator-card">
+            <ion-item class="date-time-row" lines="none"
+              style="--padding-start: 0; margin-left: 8px;border-bottom: none;">
+              <ion-col size="6" class="padding-0">
+                <ion-item class="no__padding" lines="none">
+                  <ion-label position="stacked">RETURN DATE</ion-label>
+                  <div>
+                    <span class="date">{{selectDate2}}</span>
+                    <span class="month">{{selectMonthYear2}}</span>
+                    <span class="month-year">{{selectDay2}}</span>
+
+                  </div>
+                </ion-item>
+              </ion-col>
+              <ion-col size="6" class="padding-0">
+                <ion-item class="no__padding" lines="none">
+                  <ion-label position="stacked" class="label label--arrival-time">
+                    RETURN PICKUP TIME </ion-label>
+                  <div>
+                    <span class="date"> {{fulltime2}}</span>
+                    <span class="month-year"> {{halftime2}}</span>
+                  </div>
+                </ion-item>
+              </ion-col>
+            </ion-item>
+          </div>
+        </ion-toolbar>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <!-- //-----------------------Roundtrip----------------------------// -->
+
+
+  <ion-card style="margin: 0px;margin-top: 6px;">
+
+    <ion-card-content style="padding: 2px;">
+      <ion-row class="confirmation-section">
+        <div class="payment">
+          <ion-col size="6">
+            <span class="span span--payment"> Payment. </span>
+          </ion-col>
+          <ion-col size="6" *ngIf="final_Price == null">
+            <span class="span span--total"> $ {{totalPrice}} </span>
+          </ion-col>
+          <ion-col size="6" *ngIf="final_Price != null">
+            <span class="span span--total"> $ {{final_Price}} </span>
+          </ion-col>
+        </div>
+
+        <h5>Visa*111</h5>
+        <p>Your credit card will not be charged in advance.A few days before your
+          travel date,an authorization hold will be placed for the estimated cost
+          of your reservation.This hold is not a charged; it is a test to confirm that your
+          credit card is valid and has funds available to accommodate that cost of your
+          reservation.If you pay by cash or cancle your reservation your credit card
+          will not be charged and the authorization hold will be cancelled by your
+          bank thus renedring your balance available again.
+        </p>
+
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
