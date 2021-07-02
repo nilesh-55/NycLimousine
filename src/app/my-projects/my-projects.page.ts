@@ -13,6 +13,8 @@ export class MyProjectsPage implements OnInit {
   formData = {"dfltWhere":"" , "IsActive":"" , "iColumns":"" , "iDisplayLength":"","UserID":""}
   projects: any;
   userId: string;
+  response: any;
+  errorResponse: any;
   
   constructor(private envservice: EnvService, private loadingController: LoadingController,public appcomp : AppComponent) { }
 
@@ -25,20 +27,30 @@ export class MyProjectsPage implements OnInit {
   }
 
   getProjectDetails(){
-    var id = localStorage.getItem("user_id")
+    var id = localStorage.getItem("user_id");
     this.userId = id;
-    // this.presentLoading().then(a => {
+    this.presentLoading().then(a => {
     this.formData.dfltWhere = "All";
     this.formData.IsActive = "true";
     this.formData.iColumns = "10";
     this.formData.iDisplayLength = "10";
     this.formData.UserID = this.userId;
-this.envservice.getProjectList(this.formData).subscribe((data:any) => {
-  this.projects = data.Data.Data.aaData;
+this.envservice.getProjectList(this.formData).then((data:any) => {
+  this.response = JSON.parse(data.data);
+  console.log(this.response);
+  this.projects = this.response.Data.Data.aaData;
   console.log(this.projects);
   this.loadingController.dismiss();
+  }).catch(error => {
+  this.errorResponse = JSON.parse(error.error);
+      console.log("error", error.status);
+      console.log(error.error); // error message as string
+      console.log(error.headers);
+  console.log("error", error);
+  alert(this.errorResponse.Message)
+    this.loadingController.dismiss(); 
+    });
   });
-// });
   }
 
   async presentLoading() {

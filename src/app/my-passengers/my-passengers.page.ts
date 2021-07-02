@@ -12,6 +12,8 @@ export class MyPassengersPage implements OnInit {
   formData = {"dfltWhere":"" , "IsActive":"" , "iColumns":"" , "iDisplayLength":"","UserID":""}
   passenger: any;
   userId: string;
+  response: any;
+  errorResponse: any;
   constructor(private envservice: EnvService, private loadingController: LoadingController,
     public appcomp : AppComponent) { }
 
@@ -26,18 +28,27 @@ export class MyPassengersPage implements OnInit {
   getPassengerDetails(){
     var id = localStorage.getItem("user_id")
     this.userId = id;
-    // this.presentLoading().then(a => {
+    this.presentLoading().then(a => {
     this.formData.dfltWhere = "All";
     this.formData.IsActive = "true";
     this.formData.iColumns = "10";
     this.formData.iDisplayLength = "10";
     this.formData.UserID = this.userId;
-this.envservice.getPassengerList(this.formData).subscribe((data:any) => {
-   console.log(data);
-  this.passenger = data.Data.Data.aaData;
+this.envservice.getPassengerList(this.formData).then((data:any) => {
+  this.response = JSON.parse(data.data);
+   console.log(this.response);
+  this.passenger = this.response.Data.Data.aaData;
   this.loadingController.dismiss();
-  });
-// });
+  }).catch(error => {
+    this.errorResponse = JSON.parse(error.error)
+        console.log("error", error.status);
+        console.log(error.error); // error message as string
+        console.log(error.headers);
+    console.log("error", error);
+    alert(this.errorResponse.Message)
+      this.loadingController.dismiss(); 
+      });
+});
   }
 
   async presentLoading() {

@@ -18,6 +18,8 @@ export class MytripsPage implements OnInit {
   selectDate: string;
   isLoggedin: any;
   isLoggedOut: any;
+  errorResponse: any;
+  response: any;
 
   
 
@@ -26,7 +28,6 @@ export class MytripsPage implements OnInit {
       this.appcomp.isLoggedin=localStorage.isLoggedin;
       this.appcomp.isLoggedOut=false;
     }
-    
   }
 
   ngOnInit() {
@@ -38,26 +39,33 @@ export class MytripsPage implements OnInit {
   tripList() {
     var id = localStorage.getItem("user_id")
     this.userId = id;
-    // this.presentLoading().then(a => {
+    this.presentLoading().then(a => {
     this.formData.dfltWhere = "All";
     this.formData.IsActive = "true";
     this.formData.iColumns = "10";
     this.formData.iDisplayLength = "10";
     this.formData.UserID = this.userId;
-    this.envservice.getTripList(this.formData).subscribe((data: any) => {
-     
-      console.log(data.Data.Data.aaData);
-      this.myTrips = data.Data.Data.aaData;
-      // let date = data.Data.Data.aaData.Pickup_Date;
-      // let monthYear = moment(date).add(0, 'year').format('MMM YYYY');
-      // let datttt = moment(date).format('DD');
-      // let day = moment(date).format('dddd');
-      // this.selectMonthYear = monthYear;
-      // this.selectDay = datttt;
-      // this.selectDate = day;
+    this.envservice.getTripList(this.formData).then((data: any) => {
+      this.response = JSON.parse(data.data);
+     console.log(this.response);
+      // console.log(data.Data.Data.aaData);
+      this.myTrips = this.response.Data.Data.aaData;
+      let date = this.response.Data.Data.aaData.Pickup_Date;
+      let monthYear = moment(date).add(0, 'year').format('MMM YYYY');
+      let datttt = moment(date).format('DD');
+      let day = moment(date).format('dddd');
+      this.selectMonthYear = monthYear;
+      this.selectDay = datttt;
+      this.selectDate = day;
       this.loadingController.dismiss();
-      });
-    // });
+      }).catch(error => {
+        this.errorResponse = JSON.parse(error.error)
+            console.log("error", error.status);
+            console.log(this.errorResponse); // error message as string
+            console.log(error.headers);
+          this.loadingController.dismiss(); 
+          });
+    });
   }
 
   async presentLoading() {

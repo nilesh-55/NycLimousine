@@ -142,8 +142,8 @@ this.loadingController.dismiss();
   getCardYear() {
     this.envservice.getCardyear(this.form.get('CCExpiryMonth').value)
       .subscribe((data: any) => {
-        console.log(data)
+        console.log(data);
         this.cardYear = data.Data;
-      })
+      });
   }
 }

@@ -16,11 +16,12 @@ export class MyPaymentPage implements OnInit {
   userId: string;
   paymentInfo: any;
   username: string;
+  response: any;
   constructor(private router:Router, private envservice: EnvService, public modalController: ModalController,
     private loadingController: LoadingController, public appcomp : AppComponent,public alertController: AlertController) { }
 
   ngOnInit() {
-    this.getPaymentDetails();
+    // this.getPaymentDetails();
     if(localStorage.getItem("user_id")){
       this.appcomp.isLoggedin=localStorage.isLoggedin;
       this.appcomp.isLoggedOut=false;
@@ -53,18 +54,19 @@ export class MyPaymentPage implements OnInit {
   getPaymentDetails(){
     var id = localStorage.getItem("user_id")
     this.userId = id;
-    // this.presentLoading().then(a => {
+    this.presentLoading().then(a => {
     this.formData.dfltWhere = "All";
     this.formData.IsActive = "true";
     this.formData.iColumns = "10";
     this.formData.iDisplayLength = "10";
     this.formData.UserID = this.userId;
-this.envservice.getPaymentList(this.formData).subscribe((data:any) => {
-  console.log(data);
-  this.payments = data.Data.Data.aaData;
+this.envservice.getPaymentList(this.formData).then((data:any) => {
+  this.response = JSON.parse(data.data);
+  console.log(this.response);
+  this.payments = this.response.Data.Data.aaData;
   this.loadingController.dismiss();
   });
-// });
+});
   }
 
   async presentModal(values) {

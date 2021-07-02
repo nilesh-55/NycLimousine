@@ -24,29 +24,6 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
           'Content-Type': 'application/x-www-form-urlencoded'
         })
       }
-
-      public post(url: "http://52.188.12.211:900/Api/Reservation/Index", params: {
-        "Event": "",
-      "FromLocationName": "John F. Kennedy International Airport (JFK)",
-      "HourlyTime": "",
-      "PickUpDate": "07/01/2021",
-      "PickupTime24H": "11:57 PM",
-      "ReturnDate": "Invalid date",
-      "ReturnTime24H": "",
-      "Servicetype": "",
-      "ToLocationName": "Teterboro Airport (TEB)",
-      "TypeOfService": "0",
-      "WaitingTime": ""
-      }, options: any): Promise<any> {
-        console.log('POST ', url, params, options)
-        if (options.headers) {
-          _.forEach(options.headers, (value, key) => {
-            this.http1.setHeader('*', String(key), String(value))
-          });
-        }
-    
-        return this.http1.post(url, params, null).then(resp => options.responseType == 'text' ? resp.data : JSON.parse(resp.data));
-      }
     
       handleError(error: HttpErrorResponse) {
         if (error.error instanceof ErrorEvent) {
@@ -171,11 +148,11 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
     }
 
     getTripList(value){
-        return this.http.post(`${this.API_URL}/Api/MyTrip/MYTripList`,value);
+        return this.http1.post(`${this.API_URL}/Api/MyTrip/MYTripList`,value,this.http1.setDataSerializer("json"));
     }
 
     getPaymentList(value){
-        return this.http.post(`${this.API_URL}/Api/MYPayment/GetPayment`,value);
+        return this.http1.post(`${this.API_URL}/Api/MYPayment/GetPayment`,value,this.http1.setDataSerializer("json"));
     }
 
     legacyStatement(){
@@ -187,7 +164,7 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
         return this.http.post(`${this.API_URL}/Api/MYPayment/SavePayment?CCInfoId=${value1}&CardNumber=${value2}
         &CCCardType=${value3}&CVVNumber=${value4}&CCExpiryMonth=${value5}&CCExpiryYear=${value6}&CardHolderName=${value7}
         &BillingAddress1=${value8}&BillingAddress2=${value9}&BillingCity=${value10}&BillingState=${value11}
-        &BillingZip=${value12}&BillingCountry=${value13}&FromScreen=${value14}&username=${value15}&userid=${value16}`, {});
+        &BillingZip=${value12}&BillingCountry=${value13}&FromScreen=${value14}&username=${value15}&userid=${value16}`, value1);
     }
 
     privacyStatement(){
@@ -196,15 +173,15 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
 
     updateProfile(value1,value2,value3,value4,value5){
         return this.http.post(`${this.API_URL}/Api/Account/UPdateProfile?BFirstName=${value1}&BLastName=${value2}&BEmailId=${value3}
-        &CellPhone=${value4}&UserName=${value5}`, {});
+        &CellPhone=${value4}&UserName=${value5}`, value1);
     }
 
     getProjectList(value){
-        return this.http.post(`${this.API_URL}/Api/MYProject/GetprojectList`,value);
+        return this.http1.post(`${this.API_URL}/Api/MYProject/GetprojectList`,value,this.http1.setDataSerializer("json"));
     }
 
     getPassengerList(value){
-        return this.http.post(`${this.API_URL}/Api/MyPassenger/Getpassenger`,value);
+        return this.http1.post(`${this.API_URL}/Api/MyPassenger/Getpassenger`,value,this.http1.setDataSerializer("json"));
     }
 
     feedbackPost(value1,value2,value3,value4,){
@@ -213,6 +190,6 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
     }
 
     deletePayment(value1, value2, value3){
-        return this.http.post(`${this.API_URL}/Api/MYPayment/DeletePayment?CCInfoId=${value1}&Username=${value2}&UserId=${value3}`, {});
+        return this.http.post(`${this.API_URL}/Api/MYPayment/DeletePayment?CCInfoId=${value1}&Username=${value2}&UserId=${value3}`, value1);
     }
 }
