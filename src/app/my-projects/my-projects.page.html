@@ -21,10 +21,11 @@
       <ion-card-subtitle>Payment Details</ion-card-subtitle>
       <ion-card-title>{{items.CardNumber}}</ion-card-title>
     </ion-card-header>
-
+    <ion-icon name="trash" slot="end" class="payment-css2" (click)="deletePayment(items)"></ion-icon>
+    <ion-icon name="create" slot="end" (click)="addProject(items)" class="payment-css3"></ion-icon>
   </ion-card>
 
   <div padding>
-    <ion-button class="nyc-button" (click)="">Add Project</ion-button>
+    <ion-button class="nyc-button" (click)="addProject()">Add Project</ion-button>
 </div>
 </ion-content>

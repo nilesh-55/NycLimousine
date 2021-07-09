@@ -70,6 +70,7 @@ this.envservice.getPaymentList(this.formData).then((data:any) => {
   }
 
   async presentModal(values) {
+    console.log(values);
     localStorage.setItem("addPayments", JSON.stringify(values));
     const modal = await this.modalController.create({
       component: PaymentModalPage

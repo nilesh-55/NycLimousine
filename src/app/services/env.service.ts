@@ -192,4 +192,12 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
     deletePayment(value1, value2, value3){
         return this.http.post(`${this.API_URL}/Api/MYPayment/DeletePayment?CCInfoId=${value1}&Username=${value2}&UserId=${value3}`, value1);
     }
+
+    addProjects(value1, value2, value3,value4,value5,value6){
+        return this.http.post(`${this.API_URL}/Api/MYProject/SaveMaster?ProjectId=${value1}&ProjectName=${value2}&projectdescription=${value3}&fk_user_ccinfoid=${value4}&userid=${value5}&username=${value6}`,value1);
+    }
+
+    addPassengers(value){
+        return this.http1.post(`${this.API_URL}/Api/MyPassenger/SaveMasterpassenger`,value,this.http1.setDataSerializer("json"));
+    }
 }

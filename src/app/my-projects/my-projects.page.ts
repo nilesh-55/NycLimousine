@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EnvService } from '../services/env.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { AppComponent } from '../app.component';
+import { AddProjectPage } from '../add-project/add-project.page';
 
 @Component({
   selector: 'app-my-projects',
@@ -16,14 +17,17 @@ export class MyProjectsPage implements OnInit {
   response: any;
   errorResponse: any;
   
-  constructor(private envservice: EnvService, private loadingController: LoadingController,public appcomp : AppComponent) { }
+  constructor(private envservice: EnvService, private loadingController: LoadingController,public appcomp : AppComponent, public modalController: ModalController) { }
 
   ngOnInit() {
-    this.getProjectDetails();
     if(localStorage.getItem("user_id")){
       this.appcomp.isLoggedin=localStorage.isLoggedin;
       this.appcomp.isLoggedOut=false;
     }
+  }
+
+  ionViewWillEnter(){
+    this.getProjectDetails();
   }
 
   getProjectDetails(){
@@ -60,5 +64,16 @@ this.envservice.getProjectList(this.formData).then((data:any) => {
       spinner: null
       });
     return await loading.present();
+  }
+
+  async addProject(){
+      const modal = await this.modalController.create({
+        component: AddProjectPage
+      });
+      modal.onDidDismiss()
+      .then((data) => {
+        this.getProjectDetails();
+      });
+      return await modal.present();
   }
 }

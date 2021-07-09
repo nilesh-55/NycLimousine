@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EnvService } from '../services/env.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { AppComponent } from '../app.component';
+import { AddPassengerPage } from '../add-passenger/add-passenger.page';
 
 @Component({
   selector: 'app-my-passengers',
@@ -15,7 +16,7 @@ export class MyPassengersPage implements OnInit {
   response: any;
   errorResponse: any;
   constructor(private envservice: EnvService, private loadingController: LoadingController,
-    public appcomp : AppComponent) { }
+    public appcomp : AppComponent, public modalController: ModalController) { }
 
   ngOnInit() {
     this.getPassengerDetails();
@@ -59,4 +60,15 @@ this.envservice.getPassengerList(this.formData).then((data:any) => {
       });
     return await loading.present();
   }
+
+  async addPassenger(){
+    const modal = await this.modalController.create({
+      component: AddPassengerPage
+    });
+    modal.onDidDismiss()
+    .then((data) => {
+      this.getPassengerDetails();
+    });
+    return await modal.present();
+}
 }
