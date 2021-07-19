@@ -172,8 +172,7 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
     }
 
     updateProfile(value1,value2,value3,value4,value5){
-        return this.http.post(`${this.API_URL}/Api/Account/UPdateProfile?BFirstName=${value1}&BLastName=${value2}&BEmailId=${value3}
-        &CellPhone=${value4}&UserName=${value5}`, value1);
+        return this.http.post(`${this.API_URL}/api/Account/UPdateAccount?BFirstName=${value1}&BLastName=${value2}&bTeleNo=${value3}&BEmailId=${value4}&username=${value5}`, value1);
     }
 
     getProjectList(value){
@@ -194,10 +193,18 @@ this.header = this.http1.setHeader('*', String("Access-Control-Allow-Origin"), S
     }
 
     addProjects(value1, value2, value3,value4,value5,value6){
-        return this.http.post(`${this.API_URL}/Api/MYProject/SaveMaster?ProjectId=${value1}&ProjectName=${value2}&projectdescription=${value3}&fk_user_ccinfoid=${value4}&userid=${value5}&username=${value6}`,value1);
+        return this.http1.post(`${this.API_URL}/Api/MYProject/SaveMaster?ProjectId=${value1}&ProjectName=${value2}&projectdescription=${value3}&fk_user_ccinfoid=${value4}&userid=${value5}&username=${value6}`,this.header, this.http1.setDataSerializer("json"));
+    }
+
+    deleteProject(value1, value2, value3){
+        return this.http1.post(`${this.API_URL}/Api/MYProject/DeleteProject?UserID=${value1}&UserName=${value2}&ProjectId=${value3}`,this.header, this.http1.setDataSerializer("json"));
     }
 
     addPassengers(value){
         return this.http1.post(`${this.API_URL}/Api/MyPassenger/SaveMasterpassenger`,value,this.http1.setDataSerializer("json"));
+    }
+
+    deletePassenger(value1, value2, value3){
+        return this.http1.post(`${this.API_URL}/Api/MyPassenger/DeleteMaster?PkId=${value1}&userid=${value2}&username=${value3}`, this.header, this.http1.setDataSerializer("json"));
     }
 }

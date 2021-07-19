@@ -30,11 +30,13 @@
         <ion-icon name="pin"></ion-icon> {{items.Address}}
       </ion-card-title>
     </ion-card-header>
-    <ion-icon name="trash" slot="end" class="payment-css2" (click)="deletePayment(items)"></ion-icon>
-    <ion-icon name="create" slot="end" (click)="addProject(items)" class="payment-css3"></ion-icon>
+    <ion-item>
+    <ion-icon name="trash" slot="end" class="payment-css2" (click)="deletePassenger(items)"></ion-icon>
+    <ion-icon name="create" slot="end" (click)="editPassenger(items)" class="payment-css3"></ion-icon>
+  </ion-item>
   </ion-card>
 
   <div padding>
-    <ion-button class="nyc-button" (click)="addProject()">Add Passenger</ion-button>
+    <ion-button class="nyc-button" (click)="addPassenger()">Add Passenger</ion-button>
 </div>
 </ion-content>

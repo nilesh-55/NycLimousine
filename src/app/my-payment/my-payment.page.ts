@@ -39,6 +39,10 @@ export class MyPaymentPage implements OnInit {
     const modal = await this.modalController.create({
       component: PaymentModalPage
     });
+    modal.onDidDismiss()
+      .then((data) => {
+        this.getPaymentDetails();
+      });
     return await modal.present();
   }
 
@@ -105,7 +109,7 @@ this.envservice.getPaymentList(this.formData).then((data:any) => {
 console.log(data);
 if(data.Message == 'success'){
   this.alertInfo();
- 
+ this.getPaymentDetails();
 }
          });
    

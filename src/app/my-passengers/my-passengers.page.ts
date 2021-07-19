@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EnvService } from '../services/env.service';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { AppComponent } from '../app.component';
 import { AddPassengerPage } from '../add-passenger/add-passenger.page';
 
@@ -10,13 +10,16 @@ import { AddPassengerPage } from '../add-passenger/add-passenger.page';
   styleUrls: ['./my-passengers.page.scss'],
 })
 export class MyPassengersPage implements OnInit {
-  formData = {"dfltWhere":"" , "IsActive":"" , "iColumns":"" , "iDisplayLength":"","UserID":""}
+  formData = {"dfltWhere":"" , "IsActive":"" , "iColumns":"" , "iDisplayLength":"","UserID":""};
   passenger: any;
   userId: string;
   response: any;
   errorResponse: any;
+  passengerInfo: any;
+  username: string;
   constructor(private envservice: EnvService, private loadingController: LoadingController,
-    public appcomp : AppComponent, public modalController: ModalController) { }
+    public appcomp : AppComponent, public modalController: ModalController, public alertController: AlertController,private toastCtrl: ToastController,
+    ) { }
 
   ngOnInit() {
     this.getPassengerDetails();
@@ -24,6 +27,8 @@ export class MyPassengersPage implements OnInit {
       this.appcomp.isLoggedin=localStorage.isLoggedin;
       this.appcomp.isLoggedOut=false;
     }
+    var user_name = localStorage.getItem('username')
+    this.username = user_name;
   }
 
   getPassengerDetails(){
@@ -62,6 +67,7 @@ this.envservice.getPassengerList(this.formData).then((data:any) => {
   }
 
   async addPassenger(){
+    localStorage.removeItem('addPassengers');
     const modal = await this.modalController.create({
       component: AddPassengerPage
     });
@@ -70,5 +76,74 @@ this.envservice.getPassengerList(this.formData).then((data:any) => {
       this.getPassengerDetails();
     });
     return await modal.present();
+}
+
+async editPassenger(value){
+  localStorage.setItem("addPassengers", JSON.stringify(value));
+  const modal = await this.modalController.create({
+    component: AddPassengerPage
+  });
+  modal.onDidDismiss()
+  .then((data) => {
+    this.getPassengerDetails();
+  });
+  return await modal.present();
+}
+
+deletePassenger(values){
+  localStorage.setItem("addPayments", JSON.stringify(values));
+  if(localStorage.getItem('addPayments')){
+    var paymentDetails = localStorage.getItem('addPayments');
+    this.passengerInfo = JSON.parse(paymentDetails);
+    console.log(this.passengerInfo);
+  }
+  this.presentAlertConfirm();
+}
+async presentAlertConfirm() {
+  const alert = await this.alertController.create({
+    message: 'Are you sure want to Delete ?',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
+        handler: (blah) => {
+        }
+      }, {
+        text: 'Yes',
+        handler: () => {
+          this.presentLoading().then(a => {
+       this.envservice.deletePassenger(this.passengerInfo.PassengerId,this.userId,this.username).then((data:any) =>{
+        this.response = JSON.parse(data.data);
+        console.log(this.response);
+        if(this.response.Message == 'success'){
+this.presentToast(this.response.Data);
+this.loadingController.dismiss(); 
+this.getPassengerDetails();
+}
+       })
+       .catch(error => {
+        this.errorResponse = JSON.parse(error.error)
+            console.log("error", error.status);
+            console.log(this.errorResponse); // error message as string
+            console.log(error.headers);
+          this.loadingController.dismiss(); 
+          });
+ 
+        });
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+async presentToast(info) {
+  const toast = await this.toastCtrl.create({
+    message: info,
+    duration: 2000
+  });
+  toast.present();
 }
 }

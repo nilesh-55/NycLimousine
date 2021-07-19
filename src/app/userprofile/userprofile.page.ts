@@ -48,7 +48,7 @@ export class UserprofilePage implements OnInit {
    this.presentLoading().then(a => {
     this.telephone = this.form.get('telephone').value;
      
-this.envservice.updateProfile(this.firstname,this.lastname,this.email,this.telephone,this.email).subscribe((data:any) =>{
+this.envservice.updateProfile(this.firstname,this.lastname,this.telephone,this.email,this.email).subscribe((data:any) =>{
 if(data.Message == 'success'){
   alert(data.Data)
   this.loadingController.dismiss();
