@@ -4,11 +4,14 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>My Trip</ion-title>
-    <ion-select class="all-select-button" slot="end">
+    <!-- <ion-select class="all-select-button" slot="end">
       <ion-select-option selected><span>All</span></ion-select-option>
       <ion-select-option><span>Dates</span></ion-select-option>
-      </ion-select>
-
+      </ion-select> -->
+      <ion-select class="all-select-button" slot="end" (ionChange)="openDates($event)">
+        <ion-select-option selected><span>All</span></ion-select-option>
+        <ion-select-option><span>Select Dates</span></ion-select-option>
+            </ion-select>
   </ion-toolbar>
 </ion-header >
 

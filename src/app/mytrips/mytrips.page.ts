@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EnvService } from '../services/env.service';
 import * as moment from 'moment';
 import { AppComponent } from '../app.component';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
+import { TripDatesPage } from '../trip-dates/trip-dates.page';
 
 @Component({
   selector: 'app-mytrips',
@@ -23,7 +24,7 @@ export class MytripsPage implements OnInit {
 
   
 
-  constructor(private envservice: EnvService, public appcomp: AppComponent, public loadingController: LoadingController) { 
+  constructor(private envservice: EnvService, public appcomp: AppComponent, public loadingController: LoadingController, public modalController: ModalController) { 
     if(localStorage.getItem("user_id")){
       this.appcomp.isLoggedin=localStorage.isLoggedin;
       this.appcomp.isLoggedOut=false;
@@ -66,6 +67,26 @@ export class MytripsPage implements OnInit {
           this.loadingController.dismiss(); 
           });
     });
+  }
+
+  openDates(ev){
+console.log(ev);
+if(ev.detail.value == "Select Dates"){
+  console.log("dsd")
+  this.openDatesModal();
+}
+  }
+
+  async openDatesModal() {
+const modal = await this.modalController.create({
+    component: TripDatesPage
+  });
+  modal.onDidDismiss()
+  .then((data) => {
+    // this.getPassengerDetails();
+    console.log(data);
+  });
+  return await modal.present();
   }
 
   async presentLoading() {

@@ -39,7 +39,8 @@ const routes: Routes = [
   { path: 'legalpage', loadChildren: './legalpage/legalpage.module#LegalpagePageModule' },
   { path: 'feedback-modal', loadChildren: './feedback-modal/feedback-modal.module#FeedbackModalPageModule' },
   { path: 'add-project', loadChildren: './add-project/add-project.module#AddProjectPageModule' },
-  { path: 'add-passenger', loadChildren: './add-passenger/add-passenger.module#AddPassengerPageModule' }
+  { path: 'add-passenger', loadChildren: './add-passenger/add-passenger.module#AddPassengerPageModule' },
+  { path: 'trip-dates', loadChildren: './trip-dates/trip-dates.module#TripDatesPageModule' }
 ];
 
 @NgModule({

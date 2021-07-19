@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Trip Dates</ion-title>
+    <ion-buttons slot="start">
+      <ion-icon name="close" class="close-icon" (click)="dismissModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+  <ion-label>From</ion-label>
+  <ion-datetime displayFormat="MMM DD, YYYY" placeholder="Select date"></ion-datetime>
+</ion-item>
+<ion-item>
+  <ion-label>To</ion-label>
+  <ion-datetime displayFormat="MMM DD, YYYY" placeholder="Select date"></ion-datetime> 
+</ion-item>
+<ion-item>
+  <ion-button (click)="confirmDates()">Done</ion-button>
+</ion-item>
+</ion-content>
