@@ -30,82 +30,51 @@ ion-title {
     background: #f0e130;
 }
 
-.select-css4
-{
-    font-size: 15px;
-    float: left;
-    margin-top: -5px;
-    margin-left: 6px;
-    color: black;
-    font-weight: 700;
+span.location-point{
+    display: block;
+    position: relative;
+    padding-left: 15px;
+    margin-bottom:10px;
+    font-size:11px;
+    
+    &:before{
+        content: '';
+        width: 8px;
+        height: 8px;
+        display: inline-block;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 6px;
+    }
+    &:after{
+        content: '';
+        position: absolute;
+        left: 1px;
+        top: 22px;
+        width: 6px;
+        background: #a1a1a1;
+        height: 6px;
+        border-radius: 50%;
+    }
 }
 
-.select-css5
-{
-    color: #80808021;
-    border: 1px solid;
-    height: 0px;
-    margin-top: -5px;
-    width: 100%;
-   
+span.location-point.start-location:before{
+    background:green;
 }
-
-.select-css6
-{
-    border: 1px solid green;
-    border-radius: 19px;
-    padding: 4px;
-    margin-top: 3px;
-    background: green;
-    float:left;
-
+span.location-point.end-location:before{
+    background:red;
 }
-   
-.select-css7
-{
-    font-size: 11px;
-    float: left;
-    margin-top: -1px;
-    margin-left: 18px;
-    color: black;
-    font-weight: 700;
-
+span.location-point.end-location:after{
+    top:-6px;
 }
-
-.select-css8
-{
-    border: 1px solid grey;
-    border-radius: 19px;
-    padding: 1px;
-    margin-top: -1px;
-    background: grey;
-    float:left;
-    margin-left: 3px;
-
+span.location-point.midpoint:after {
+    display:none;
 }
-.select-css9
-{
-    border: 1px solid grey;
-    border-radius: 19px;
-    padding: 4px;
-    margin-top: 3px;
-    background: grey;
-    float:left;
-
+span.location-point.midpoint:after {
+    top: -18px;
+    margin: 0;
 }
-
-.select-css10
-{
-    border: 1px solid red;
-    border-radius: 19px;
-    padding: 4px;
-    margin-top: 3px;
-    background: red;
-    float:left;
-
-}
-
-
 
 .all-select-button  {
     --background: #fdc600;

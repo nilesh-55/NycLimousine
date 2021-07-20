@@ -1,30 +1,28 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add Project</ion-title>
+    <ion-title class="page--title">Project Details</ion-title>
     <ion-buttons slot="start">
       <ion-icon name="close" class="close-icon" (click)="dismissModal()"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-item>
-    <ion-row>
-    <ion-label>Project Name</ion-label>
-  </ion-row>
+<ion-content padding></ion-content>
+<form>
   <ion-row>
-    <ion-input placeholder="Enter Project Name" [(ngModel)]="projectName"></ion-input>
-  </ion-row>
-  </ion-item>
-  <ion-item>
-    <ion-label>Project Description</ion-label>
-    <ion-input placeholder="Enter Project Description" [(ngModel)]="projectDescription"></ion-input>
-  </ion-item>
-  <!-- <ion-item>
-    <ion-label>Card Number</ion-label>
-    <ion-input placeholder="Enter Card Number" [(ngModel)]="cardNumber"></ion-input>
-  </ion-item> -->
-  <ion-item>
-    <ion-button (click)="addProject()">Add</ion-button>
-  </ion-item>
+      <div class="input-border">
+        <ion-label position="stacked" class="name-css">Project Name<span class="mendatary"> * </span></ion-label>
+        <ion-input type="text" class="input-css" [(ngModel)]="projectName"></ion-input>
+      </div>
+
+      <div class="input-border">
+        <ion-label position="stacked" class="name-css">Project Description<span class="mendatary"> * </span></ion-label>
+        <ion-input type="text" class="input-css" [(ngModel)]="projectDescription"></ion-input>
+      </div>
+
+      <ion-button type="submit" class="main-button" (click)="addProject()">Save</ion-button>
+
+    </ion-row>
+</form>
+
 </ion-content>
