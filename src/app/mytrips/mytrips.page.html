@@ -42,26 +42,26 @@
             </ion-row><!--date end-->
             <hr class="select-css5">
             <ion-row>
-                <ion-col size="6">
-                    <ion-img src="assets/icon/visa_PNG14.png" style="width:100px; height: 50px;"></ion-img>
-                    <p class="select-css3"></p>   <p class="select-css4">{{items.Vehicle_Name}}</p>
+               <ion-col size="4">
+                <ion-img src="assets/icon/visa_PNG14.png" style="width:100px; height: 50px;"></ion-img>
+                <p class="select-css3"></p>   <p class="select-css4">{{items.Vehicle_Name}}</p>
                 </ion-col>
 
-                <ion-col size="6">
+                <ion-col size="8">
                   
-                        <p class="select-css6"></p>   <p class="select-css7" style="margin-left: 7px;">{{items.From_Location}}</p><br>
+                    <div class="location-details">
+                        <span class="location-point start-location">{{items.From_Location}}</span>
+                      
+                        <!--
+                            <div>
+                              <p class="select-css9" style="margin-top:-26px"></p>
+                              <p class="select-css7" style="margin-top:-28px">2 Stops</p>
+                            </div>
+                        -->
+                        <span class="location-point midpoint"></span>
 
-                        <p class="select-css8"></p><br>
-                        <p class="select-css8"style="margin-top:-16px"></p><br>
-
-                        <!-- <div><p class="select-css9" style="margin-top:-26px"></p> -->
-                             <!-- <p class="select-css7" style="margin-top:-28px">2 Stops</p></div> -->
-
-                             <p class="select-css8" style="margin-top:-8px"></p><br>
-                        <p class="select-css8"style="margin-top:-21px"></p><br>
-
-                        <div style="margin-top: -6px;"><p class="select-css10" style="margin-top:-26px"></p>
-                             <p class="select-css7" style="margin-top:-28px">{{items.To_Location}}</p></div>
+                        <span class="location-point end-location">{{items.To_Location}}</span>
+                    </div>
 
                   </ion-col>
                 
