@@ -1,0 +1,36 @@
+.mendatary {
+    color: red;
+    font-size: 15px;
+}
+form {
+    background: #fff;
+    .input-border {
+        border-bottom: 1px solid #ddd;
+        width: 100%;
+        padding: 5px 15px;
+        ion-input {
+            font-size: 13px;
+            color: #000;
+            letter-spacing: 0.5px;
+            --padding-bottom: 4px;
+            --padding-top: 10px;
+            --padding-start: 0;
+            font-family: 'Nunito',sans-serif;
+            font-weight: 900;
+        }
+        ion-select {
+            --padding-start: 0;
+            color: #000;
+            font-size: 14px;
+            --placeholder-colo: #000;
+            font-family: 'Nunito',sans-serif;
+            letter-spacing: 0.3px;
+        }
+        ion-label {
+            position: relative;
+            top: 0.5rem;
+            font-family: 'Nunito',sans-serif;
+            letter-spacing: 0.5px;
+        }
+    }
+}
