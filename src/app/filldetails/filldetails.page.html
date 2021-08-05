@@ -1708,10 +1708,10 @@
 <ion-footer>
 
     <ion-item lines="none">
-        <ion-label *ngIf="final_Price !== null && serviceName !== 'Round Trip'">$ {{final_Price}} <ion-icon
+        <ion-label *ngIf="final_Price !== null && serviceName !== 'Round Trip'" (click)="presentModal()">$ {{final_Price}} <ion-icon
                 name="information-circle-outline" (click)="presentModal()"></ion-icon>
         </ion-label>
-        <ion-label *ngIf="serviceName == 'Round Trip' && total != null">$ {{total}} <ion-icon
+        <ion-label *ngIf="serviceName == 'Round Trip' && total != null" (click)="presentModal()">$ {{total}} <ion-icon
                 name="information-circle-outline" (click)="presentModal()"></ion-icon><br>
             <small style="color: #ffcb00;">Grand Total</small>
         </ion-label>

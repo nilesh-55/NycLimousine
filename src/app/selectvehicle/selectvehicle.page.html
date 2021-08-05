@@ -113,7 +113,7 @@
 
 <ion-footer>
   <ion-item lines="none">
-    <ion-label>$ {{finalAmount}} <ion-icon name="information-circle-outline" (click)="presentModal()"></ion-icon>
+    <ion-label (click)="presentModal()">$ {{finalAmount}} <ion-icon name="information-circle-outline" (click)="presentModal()"></ion-icon>
     </ion-label>
     <ion-button class="main-button main-button--next-page" slot="end" routerDirection="forward" (click)="goToPayment()">Select Vehicle
     </ion-button>

@@ -28,6 +28,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { AddProjectPage } from './add-project/add-project.page';
 import { AddPassengerPage } from './add-passenger/add-passenger.page';
 import { TripDatesPage } from './trip-dates/trip-dates.page';
+import { StopsLocationPage } from './stops-location/stops-location.page';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { TripDatesPage } from './trip-dates/trip-dates.page';
     FeedbackModalPage,
     AddProjectPage,
     AddPassengerPage,
-    TripDatesPage
+    TripDatesPage,
+    StopsLocationPage
   ],
   entryComponents: [
     ModelfromComponent,
@@ -57,7 +59,8 @@ import { TripDatesPage } from './trip-dates/trip-dates.page';
     FeedbackModalPage,
     AddProjectPage,
     AddPassengerPage,
-    TripDatesPage
+    TripDatesPage,
+    StopsLocationPage
   ],
   imports: [
     BrowserModule,

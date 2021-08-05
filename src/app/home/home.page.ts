@@ -12,6 +12,7 @@ import { NavController } from '@ionic/angular';
 import { IonReorderGroup } from '@ionic/angular';
 import * as moment from 'moment';
 import { AppComponent } from '../app.component';
+import { StopsLocationPage } from '../stops-location/stops-location.page';
 
 declare var google: any;
 @Component({
@@ -239,7 +240,7 @@ console.log(control.value);
 
   async stopModal(i) {
     const modal = await this.modalController.create({
-      component: ModelfromComponent
+      component: StopsLocationPage
     });
     modal.onDidDismiss()
       .then((data) => {
@@ -405,11 +406,31 @@ console.log(control.value);
     this.oldid = ev.detail.from;
     this.newid = ev.detail.to;
 
-    this.addresses[ev.detail.from] = this.newid;
-    this.addresses[ev.detail.to] = this.oldid;
-    this.addresses[ev.detail.from] = this.oldid;
-    this.addresses[ev.detail.to] = this.newid;
+    // this.addresses[ev.detail.from] = this.newid;
+    // this.addresses[ev.detail.to] = this.oldid;
+    // this.addresses[ev.detail.from] = this.oldid;
+    // this.addresses[ev.detail.to] = this.newid;
     ev.detail.complete();
+    console.log(ev);
+    console.log("old", this.oldid);
+    console.log("new", this.newid);
+    // console.log(this.addresses[ev.detail.from]);
+    // console.log(this.addresses[ev.detail.to]);
+const control = <FormArray>this.form1.controls.objLiclsResStops;
+
+let newIndex: number = this.oldid + this.newid;
+    if(newIndex === -1) {
+      newIndex = control.length - 1;
+      console.log(newIndex);
+    } else if(newIndex == control.length) {
+      newIndex = 0;
+      console.log(newIndex);
+    }
+  
+    const currentGroup = control.at(this.oldid);
+    control.removeAt(this.oldid);
+    control.insert(newIndex, currentGroup)
+    console.log(control.controls)
   }
 
   toggleReorderGroup() {

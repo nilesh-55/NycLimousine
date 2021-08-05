@@ -40,7 +40,8 @@ const routes: Routes = [
   { path: 'feedback-modal', loadChildren: './feedback-modal/feedback-modal.module#FeedbackModalPageModule' },
   { path: 'add-project', loadChildren: './add-project/add-project.module#AddProjectPageModule' },
   { path: 'add-passenger', loadChildren: './add-passenger/add-passenger.module#AddPassengerPageModule' },
-  { path: 'trip-dates', loadChildren: './trip-dates/trip-dates.module#TripDatesPageModule' }
+  { path: 'trip-dates', loadChildren: './trip-dates/trip-dates.module#TripDatesPageModule' },
+  { path: 'stops-location', loadChildren: './stops-location/stops-location.module#StopsLocationPageModule' }
 ];
 
 @NgModule({

@@ -29,8 +29,12 @@
         {{ row.Location_Name }} 
       </div>
 
-      <div class="form-section form-section--suggetion-list" *ngIf="row.Location_Type == 'B'" (click)="putvalue(row)">
-        {{ row.Location_Name }}  {{row.Location_Address}}
+      <div class="form-section form-section--suggetion-list" *ngIf="row.Location_Type == 'B' && row.Location_Address !== row.Location_Name" (click)="putvalue(row)">
+        {{ row.Location_Name }} {{row.Location_Address}}
+      </div>
+
+      <div class="form-section form-section--suggetion-list" *ngIf="row.Location_Type == 'B' && row.Location_Address == row.Location_Name" (click)="putvalue(row)">
+         {{row.Location_Address}}
       </div>
 
       <div class="form-section form-section--suggetion-list" *ngIf="row.Location_Name == ''" (click)="putvalue(row)">

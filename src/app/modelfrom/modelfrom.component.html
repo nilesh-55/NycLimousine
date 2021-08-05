@@ -31,8 +31,12 @@
         {{ item.Location_Name }}
       </div>
 
-      <div class="form-section form-section--suggetion-list" *ngIf="item.Location_Type == 'B'" (click)="putvalue(item)">
+      <div class="form-section form-section--suggetion-list" *ngIf="item.Location_Type == 'B' && item.Location_Address !== item.Location_Name" (click)="putvalue(item)">
         {{ item.Location_Name }} {{item.Location_Address}}
+      </div>
+
+      <div class="form-section form-section--suggetion-list" *ngIf="item.Location_Type == 'B' && item.Location_Address == item.Location_Name" (click)="putvalue(item)">
+         {{item.Location_Address}}
       </div>
 
       <ion-item *ngIf="item.Location_Name == ''" (click)="putvalue(item)">
