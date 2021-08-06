@@ -417,7 +417,6 @@ console.log(control.value);
     // console.log(this.addresses[ev.detail.from]);
     // console.log(this.addresses[ev.detail.to]);
 const control = <FormArray>this.form1.controls.objLiclsResStops;
-
 let newIndex: number = this.oldid + this.newid;
     if(newIndex === -1) {
       newIndex = control.length - 1;
@@ -429,8 +428,8 @@ let newIndex: number = this.oldid + this.newid;
   
     const currentGroup = control.at(this.oldid);
     control.removeAt(this.oldid);
-    control.insert(newIndex, currentGroup)
-    console.log(control.controls)
+    control.insert(newIndex, currentGroup);
+    console.log(control.controls);
   }
 
   toggleReorderGroup() {
